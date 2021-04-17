@@ -1,0 +1,12 @@
+.musicleft {
+    background-color: lightgreen;
+}
+
+.youtubeonly {
+    background-color: lightblue;
+}
+main {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+}
