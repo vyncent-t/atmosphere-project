@@ -3,12 +3,16 @@ $(document).ready(function () {
 	let searchbutton = $("#youtubesearchbutton");
 	let searchinput = $("#youtubesearch");
 	let videoIDcode = searchinput.val();
-	let main = $("#mainfield");
+	let main = $("#ytfield");
 
 	// use the id from the JSON search api
 	function youtubePlayer() {
-		videoIDcode = searchinput.val();
-		console.log(videoIDcode);
+		
+		// videoIDcode = searchinput.val();
+		// console.log(videoIDcode);
+
+		//need api that takes user input and parses for video ID code
+
 		let youtubeURL = `https://www.youtube.com/embed/${videoIDcode}`;
 		iframe.attr("src", youtubeURL);
 		iframe.attr("width", "560");
@@ -16,12 +20,14 @@ $(document).ready(function () {
 		iframe.attr("frameborder", "0");
 		iframe.appendTo(main);
 	}
-
 	searchbutton.on("click", youtubePlayer);
 });
-var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/"; 
 
- 
+
+
+//spotify logic
+
+var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/"; 
 
 var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
 var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
@@ -34,8 +40,9 @@ const PLAYLISTS = "https://api.spotify.com/v1/me/playlists";
 
 
 function onPageLoad(){
-    client_id = localStorage.getItem("client_id");
-    client_secret = localStorage.getItem("client_secret");
+    // client_id = localStorage.getItem("client_id");
+    // client_secret = localStorage.getItem("client_secret");
+
     if ( window.location.search.length > 0 ){
         handleRedirect();
     }
@@ -62,10 +69,13 @@ function getCode(){
 }
 
 function requestAuthorization(){
-    //client_id.value;
-    //client_secret.value;
-    localStorage.setItem("client_id", client_id);
-    localStorage.setItem("client_secret", client_secret); // In a real app you should not expose your client_secret to the user
+    // client_id.value;
+    // client_secret.value;
+
+    // localStorage.setItem("client_id", client_id);
+    // localStorage.setItem("client_secret", client_secret); 
+	
+	// In a real app you should not expose your client_secret to the user
 
     let url = AUTHORIZE;
     url += "?client_id=" + client_id;
@@ -86,7 +96,7 @@ function fetchAccessToken( code ){
 }
 
 function refreshAccessToken(code){
-    refresh_token = localStorage.getItem("refresh_token");
+    // refresh_token = localStorage.getItem("refresh_token");
     let body = "grant_type=refresh_token";
     body += "&refresh_token=" + refresh_token;
     body += "&client_id=" + client_id;
@@ -111,11 +121,11 @@ function handleAuthorizationResponse(){
         var data = JSON.parse(this.responseText);
         if ( data.access_token != undefined ){
             access_token = data.access_token;
-            localStorage.setItem("access_token", access_token);
+            // localStorage.setItem("access_token", access_token);
         }
         if ( data.refresh_token  != undefined ){
             refresh_token = data.refresh_token;
-            localStorage.setItem("refresh_token", refresh_token);
+            // localStorage.setItem("refresh_token", refresh_token);
         }
         onPageLoad();
     }
