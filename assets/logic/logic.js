@@ -19,7 +19,7 @@ $(document).ready(function () {
 
 	searchbutton.on("click", youtubePlayer);
 });
-var redirect_uri = "http://127.0.0.1:5500/index.html"; 
+var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/"; 
 
  
 
@@ -62,8 +62,8 @@ function getCode(){
 }
 
 function requestAuthorization(){
-    client_id.value;
-    client_secret.value;
+    //client_id.value;
+    //client_secret.value;
     localStorage.setItem("client_id", client_id);
     localStorage.setItem("client_secret", client_secret); // In a real app you should not expose your client_secret to the user
 
