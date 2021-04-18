@@ -197,8 +197,8 @@ var genres = {
     jazzBlues: {
         dukeElling: "",
         ellaFitz: "",
-        louisArm: ""
-        rayCharles: "",
+        louisArm: "",
+        rayCharles: ""
     },
     rhythmAndBlues: {
         laurynHill: "",
