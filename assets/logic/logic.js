@@ -187,6 +187,8 @@ function removeAllItems(elementId){
 }
 
 
+
+//Object that holds all the spotify IDs for each genre
 var genres = {
 
     classical: {
@@ -224,4 +226,36 @@ var genres = {
 
 }
 
-TESTTT
+//Event listener for the ul genre selections
+$("#genre-list").on("click", function(event){
+    console.log(event);
+    // Gets the value attribute that was selected
+    var choiceValue = $("li").attr("value");
+    console.log(choiceValue);
+    //Creates random number
+    var randomNumber = Math.floor(Math.random()*5);
+    console.log(randomNumber);
+    // Gets random genre choices from object
+    var randomClassical = genres.classical;
+    console.log(randomClassical);
+    var randomSoftRock = genres.softRock;
+    console.log(randomSoftRock)
+    var randomJazzBlue = genres.jazzBlues;
+    console.log(randomJazzBlue)
+    var randomRandB = genres.rhythmAndBlues;
+    console.log(randomRandB);
+    var randomIndieElec = genres.indieElectric;
+    console.log(randomIndieElec);
+
+    
+})
+
+
+
+
+//Event listener on ul to grab value of li selected and pick random number
+// Use number to select song from genre Array
+// Store selected song to add to URL
+// Change html content for iframe with new concactonated iframe tag
+
+
