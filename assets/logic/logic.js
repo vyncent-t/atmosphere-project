@@ -191,9 +191,9 @@ var genres = {
 
     classical: {
         beethoven: "1DFixLWuPkv3KT3TnV35m3",
-        bocelli: "",
-        pavarotti: "",
-        mozart: ""
+        bocelli: "test1",
+        pavarotti: "test2",
+        mozart: "test3"
     },
     softRock: {
         fleetwoodMac: "test",
@@ -223,6 +223,12 @@ var genres = {
 
 
 }
+function getRandomKey(object){
+    var objectKeys = Object.keys(object);
+    var randomPosition = Math.floor(Math.random()*objectKeys.length);
+    return objectKeys[randomPosition];
+}
+
 
 //Event listener for the ul genre selections
 $("#genre-list").on("click", function(event){
@@ -231,29 +237,38 @@ $("#genre-list").on("click", function(event){
     var choiceValue = $("li").attr("value");
     console.log(choiceValue);
 
-    //Creates random number
-    var randomNumber = Math.floor(Math.random()*5);
-    console.log(randomNumber);
-
     // Gets random genre choices from object
-    var randomClassical = genres.classical.beethoven;
+    var randomClassical = genres.classical[getRandomKey(genres.classical)];
     console.log(randomClassical);
 
-    var randomSoftRock = genres.softRock.fleetwoodMac;
+    var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
     console.log(randomSoftRock)
 
-    var randomJazzBlue = genres.jazzBlues.dukeElling;
+    var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
     console.log(randomJazzBlue)
 
-    var randomRandB = genres.rhythmAndBlues.aliciaKeys;
+    var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.randomRandB)];
     console.log(randomRandB);
 
-    var randomIndieElec = genres.indieElectric.wet;
+    var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
     console.log(randomIndieElec);
 
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
-    let songFindAddy = "https://open.spotify.com/embed/album/"+genres.classical.beethoven;
+    let songFindAddy = "https://open.spotify.com/embed/album/";
+
+        if(choiceValue === "classical"){
+            songFindAddy += randomClassical;
+        } else if (choiceValue === "soft-rock"){
+            songFindAddy += randomSoftRock;
+        } else if (choiceValue === "jazz-blues"){
+            songFindAddy += randomJazzBlue;
+        } else if (choiceValue ==="rhythm-and-blues"){
+            songFindAddy += randomRandB;
+        } else if (choiceValue === "indie-electronic"){
+            songFindAddy += randomIndieElec;
+        };
+        
 		songFind.attr("src", songFindAddy);
 		songFind.attr("width", "300");
 		songFind.attr("height", "380");
