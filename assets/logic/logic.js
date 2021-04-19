@@ -190,19 +190,19 @@ function removeAllItems(elementId){
 var genres = {
 
     classical: {
-        beethoven: "",
+        beethoven: "1DFixLWuPkv3KT3TnV35m3",
         bocelli: "",
         pavarotti: "",
         mozart: ""
     },
     softRock: {
-        fleetwoodMac: "",
+        fleetwoodMac: "test",
         extreme: "",
         neilDiamond: "",
         ericCarmen: ""
     },
     jazzBlues: {
-        dukeElling: "",
+        dukeElling: "test",
         ellaFitz: "",
         louisArm: "",
         rayCharles: ""
@@ -210,14 +210,14 @@ var genres = {
     rhythmAndBlues: {
         laurynHill: "",
         boyz2Men: "",
-        aliciaKeys: "",
+        aliciaKeys: "test",
         mackMorrison: ""
     },
 
     indieElectric: {
         xx: "",
         prettyLights: "",
-        wet: "",
+        wet: "test",
         shallou: ""
     }
 
@@ -230,23 +230,41 @@ $("#genre-list").on("click", function(event){
     // Gets the value attribute that was selected
     var choiceValue = $("li").attr("value");
     console.log(choiceValue);
+
     //Creates random number
     var randomNumber = Math.floor(Math.random()*5);
     console.log(randomNumber);
+
     // Gets random genre choices from object
-    var randomClassical = genres.classical;
+    var randomClassical = genres.classical.beethoven;
     console.log(randomClassical);
-    var randomSoftRock = genres.softRock;
+
+    var randomSoftRock = genres.softRock.fleetwoodMac;
     console.log(randomSoftRock)
-    var randomJazzBlue = genres.jazzBlues;
+
+    var randomJazzBlue = genres.jazzBlues.dukeElling;
     console.log(randomJazzBlue)
-    var randomRandB = genres.rhythmAndBlues;
+
+    var randomRandB = genres.rhythmAndBlues.aliciaKeys;
     console.log(randomRandB);
-    var randomIndieElec = genres.indieElectric;
+
+    var randomIndieElec = genres.indieElectric.wet;
     console.log(randomIndieElec);
 
-    
-})
+    // Build url to have iframe embedded
+    var songFind = $("<iframe>");
+    let songFindAddy = "https://open.spotify.com/embed/album/"+genres.classical.beethoven;
+		songFind.attr("src", songFindAddy);
+		songFind.attr("width", "300");
+		songFind.attr("height", "380");
+		songFind.attr("frameborder", "0");
+        songFind.attr("allowtransparency", "true");
+        songFind.attr("allow", "encrypted-media");
+		songFind.appendTo($("#refresh-btn"));
+	console.log(songFindAddy);
+
+   
+});
 
 
 
@@ -255,5 +273,8 @@ $("#genre-list").on("click", function(event){
 // Use number to select song from genre Array
 // Store selected song to add to URL
 // Change html content for iframe with new concactonated iframe tag
-
-
+    //Still left to do:
+    // Get the Ids for each song.
+    // Be able to get every artist's song by random selection(objects or array?)
+    // For loop for the entire list
+    // Final check to see if the embedding works
