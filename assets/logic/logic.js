@@ -190,35 +190,35 @@ function removeAllItems(elementId){
 var genres = {
 
     classical: {
-        beethoven: "1DFixLWuPkv3KT3TnV35m3",
-        bocelli: "test1",
-        pavarotti: "test2",
-        mozart: "test3"
+        beethoven: "2wOqMjp9TyABvtHdOSOTUS",
+        bocelli: "3EA9hVIzKfFiQI0Kikz2wo",
+        pavarotti: "0Y8KmFkKOgJybpVobn1onU",
+        mozart: "4NJhFmfw43RLBLjQvxDuRS"
     },
     softRock: {
-        fleetwoodMac: "test",
-        extreme: "",
-        neilDiamond: "",
-        ericCarmen: ""
+        fleetwoodMac: "08GQAI4eElDnROBrJRGE0X",
+        extreme: "6w7j5wQ5AI5OQYlcM15s2L",
+        neilDiamond: "7mEIug7XUlQHikrFxjTWes",
+        ericCarmen: "2ekjTXgjxbWwBX5lTAj4DU"
     },
     jazzBlues: {
-        dukeElling: "test",
-        ellaFitz: "",
-        louisArm: "",
-        rayCharles: ""
+        dukeElling: "4F7Q5NV6h5TSwCainz8S5A",
+        ellaFitz: "5V0MlUE1Bft0mbLlND7FJz",
+        louisArm: "19eLuQmk9aCobbVDHc6eek",
+        rayCharles: "1eYhYunlNJlDoQhtYBvPsi"
     },
     rhythmAndBlues: {
-        laurynHill: "",
-        boyz2Men: "",
-        aliciaKeys: "test",
-        mackMorrison: ""
+        laurynHill: "2Mu5NfyYm8n5iTomuKAEHl",
+        boyz2Men: "6O74knDqdv3XaWtkII7Xjp",
+        aliciaKeys: "3DiDSECUqqY1AuBP8qtaIa",
+        mackMorrison: "6V3F8MZrOKdT9fU686ybE9"
     },
 
     indieElectric: {
-        xx: "",
-        prettyLights: "",
-        wet: "test",
-        shallou: ""
+        xx: "3iOvXCl6edW5Um0fXEBRXy",
+        prettyLights: "4iVhFmG8YCCEHANGeUUS9q",
+        wet: "2i9uaNzfUtuApAjEf1omV8",
+        shallou: "7C3Cbtr2PkH2l4tOGhtCsk"
     }
 
 
@@ -234,24 +234,19 @@ function getRandomKey(object){
 $("#genre-list").on("click", function(event){
     console.log(event);
     // Gets the value attribute that was selected
-    var choiceValue = $("li").attr("value");
+    var choiceValue = event.target.getAttribute("value");
     console.log(choiceValue);
 
     // Gets random genre choices from object
     var randomClassical = genres.classical[getRandomKey(genres.classical)];
-    console.log(randomClassical);
 
     var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
-    console.log(randomSoftRock)
 
     var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
-    console.log(randomJazzBlue)
 
-    var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.randomRandB)];
-    console.log(randomRandB);
+    var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.rhythmAndBlues)];
 
     var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
-    console.log(randomIndieElec);
 
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
@@ -268,7 +263,7 @@ $("#genre-list").on("click", function(event){
         } else if (choiceValue === "indie-electronic"){
             songFindAddy += randomIndieElec;
         };
-        
+
 		songFind.attr("src", songFindAddy);
 		songFind.attr("width", "300");
 		songFind.attr("height", "380");
