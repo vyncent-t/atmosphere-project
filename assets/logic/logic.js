@@ -172,9 +172,9 @@ function callApi(method, url, body, callback){
     xhr.onload = callback;
 }
 
-function refreshPlaylists(){
-    callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
-}
+// function refreshPlaylists(){
+//     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
+// }
 
 function handlePlaylistsResponse(){
     if ( this.status == 200 ){
@@ -214,26 +214,26 @@ function removeAllItems(elementId){
 var genres = {
 
     classical: {
-        beethoven: "2wOqMjp9TyABvtHdOSOTUS",
-        bocelli: "3EA9hVIzKfFiQI0Kikz2wo",
-        pavarotti: "0Y8KmFkKOgJybpVobn1onU",
-        mozart: "4NJhFmfw43RLBLjQvxDuRS"
+        beethoven: "20GYbni2QFEhElzmJDVOLE",
+        bocelli: "3uARqNN4bYqts3Ltg5Jku3",
+        pavarotti: "4uqcr1BXoigCnQ9POw0YYP",
+        mozart: "75GZdd2yVQRz1whnrq4tbK"
     },
     softRock: {
-        fleetwoodMac: "08GQAI4eElDnROBrJRGE0X",
-        extreme: "6w7j5wQ5AI5OQYlcM15s2L",
-        neilDiamond: "7mEIug7XUlQHikrFxjTWes",
-        ericCarmen: "2ekjTXgjxbWwBX5lTAj4DU"
+        fleetwoodMac: "0BwWUstDMUbgq2NYONRqlu",
+        extreme: "7DKHQxJTI32UyCdDdGwvRC",
+        neilDiamond: "6RfgcwsOUlWkGNAd6zjjYd",
+        ericCarmen: "02CxAhdSRhzcm6XQ8m5RNp"
     },
     jazzBlues: {
-        dukeElling: "4F7Q5NV6h5TSwCainz8S5A",
-        ellaFitz: "5V0MlUE1Bft0mbLlND7FJz",
-        louisArm: "19eLuQmk9aCobbVDHc6eek",
-        rayCharles: "1eYhYunlNJlDoQhtYBvPsi"
+        dukeElling: "5HRYqb7mp810fhgWiUL0uo",
+        ellaFitz: "1vvnTmmNWnGmqvVFjVIINf",
+        louisArm: "6mmv0gwumlFGWDGJXF4yEv",
+        rayCharles: "2HoXseQsMnDKs1sDSB2BfH"
     },
     rhythmAndBlues: {
-        laurynHill: "2Mu5NfyYm8n5iTomuKAEHl",
-        boyz2Men: "6O74knDqdv3XaWtkII7Xjp",
+        laurynHill: "18XFe4CPBgVezXkxZP6rTb",
+        boyz2Men: "7JnLsJWNUf50DGZ5JhBgbO",
         aliciaKeys: "6TqRKHLjDu5QZuC8u5Woij",
         mackMorrison: "6plavTFCGXv5vpy0jZVtOV"
     },
@@ -255,10 +255,10 @@ function getRandomKey(object){
 
 
 //Event listener for the ul genre selections
-$("#genre-list").on("click", function(event){
+$("#genre-list").on("click", 'li', function(event){
     console.log(event);
     // Gets the value attribute that was selected
-    var choiceValue = event.target.getAttribute("value");
+    var choiceValue = event.currentTarget.getAttribute("value");
     console.log(choiceValue);
 
     // Gets random genre choices from object
@@ -274,7 +274,7 @@ $("#genre-list").on("click", function(event){
 
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
-    var spotifyIframe = $("#spotify-iframe");
+    var spotifyIframe = $("#spotify-frame");
     let songFindAddy = "https://open.spotify.com/embed/album/";
 
         if(choiceValue === "classical"){
