@@ -1,29 +1,54 @@
 $(document).ready(function () {
-	let iframe = $("<iframe>");
 	let searchbutton = $("#youtubesearchbutton");
 	let searchinput = $("#youtubesearch");
-	let videoIDcode = searchinput.val();
-	let main = $("#ytfield");
+	let userVisualChoice;
+	let clientLoaded = false
+
+	//replace this with project account key later
 
 	// use the id from the JSON search api
 	function youtubePlayer() {
-		
-		// videoIDcode = searchinput.val();
-		// console.log(videoIDcode);
+		if (!clientLoaded) {loadClient()}
+		else {execute()}
+		console.log(userVisualChoice)
+	}
 
-		//need api that takes user input and parses for video ID code
+	// let youtubeKey = "AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg"
 
-		let youtubeURL = `https://www.youtube.com/embed/${videoIDcode}`;
+		function loadClient() {
+			debugger
+			gapi.client.setApiKey("AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg");
+			gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
+			.then(function() { console.log("YOUTUBE: GAPI client loaded for API"); execute(); },
+			function(err) { console.error("Error loading GAPI client for API", err); });
+		}
+
+	function execute() {
+		gapi.client.youtube.search.list(
+            {"q": `${searchinput.val()} meditation`} )
+			.then(function(response) {
+				// Handle the results here (response.result has the parsed body).
+				// debugger
+				console.log("Response", response);
+				let youtubeIDCode = response.result.items[0].id.videoId
+				console.log(youtubeIDCode)
+
+		let iframe = $("<iframe>");
+		let youtubeContent = $("#youtubeContent");
+		let youtubeURL = `https://www.youtube.com/embed/${youtubeIDCode}?controls=0&mute=1&showinfo=0&rel=0&autoplay=1&loop=1`;
+		youtubeContent.empty()
 		iframe.attr("src", youtubeURL);
 		iframe.attr("width", "560");
 		iframe.attr("height", "315");
 		iframe.attr("frameborder", "0");
-		iframe.appendTo(main);
-	}
+		iframe.appendTo(youtubeContent);
+			},
+				function(err) { console.error("Execute error", err); debugger });
+			}
 	searchbutton.on("click", youtubePlayer);
 });
 
-
+// POINT BEFORE THINGS BREAK AGAIN
 
 //spotify logic
 
@@ -49,7 +74,6 @@ function onPageLoad(){
    
         }
     
-   
 
 
 function handleRedirect(){
@@ -158,7 +182,7 @@ function handlePlaylistsResponse(){
         console.log(data);
         removeAllItems("playlists");
         data.items.forEach(item => addPlaylist(item));
-        document.getElementById('playlists').value=currentPlaylist;
+        // document.getElementById('playlists').value=currentPlaylist;
     }
     else if ( this.status == 401 ){
         refreshAccessToken()
@@ -210,15 +234,15 @@ var genres = {
     rhythmAndBlues: {
         laurynHill: "2Mu5NfyYm8n5iTomuKAEHl",
         boyz2Men: "6O74knDqdv3XaWtkII7Xjp",
-        aliciaKeys: "3DiDSECUqqY1AuBP8qtaIa",
-        mackMorrison: "6V3F8MZrOKdT9fU686ybE9"
+        aliciaKeys: "6TqRKHLjDu5QZuC8u5Woij",
+        mackMorrison: "6plavTFCGXv5vpy0jZVtOV"
     },
 
     indieElectric: {
-        xx: "3iOvXCl6edW5Um0fXEBRXy",
-        prettyLights: "4iVhFmG8YCCEHANGeUUS9q",
-        wet: "2i9uaNzfUtuApAjEf1omV8",
-        shallou: "7C3Cbtr2PkH2l4tOGhtCsk"
+        xx: "6Zw6NKh3oIUhDRMOyBmsUU",
+        prettyLights: "5E5U9ckjlBvJ3qkNAAqESY",
+        wet: "4vTrbwGUedO7SN3DqNOiYU",
+        shallou: "4RY8E9iJR1Ec6d3FXqqodJ"
     }
 
 
@@ -250,6 +274,7 @@ $("#genre-list").on("click", function(event){
 
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
+    var spotifyIframe = $("#spotify-iframe");
     let songFindAddy = "https://open.spotify.com/embed/album/";
 
         if(choiceValue === "classical"){
@@ -264,14 +289,15 @@ $("#genre-list").on("click", function(event){
             songFindAddy += randomIndieElec;
         };
 
+        spotifyIframe.empty();
 		songFind.attr("src", songFindAddy);
 		songFind.attr("width", "300");
 		songFind.attr("height", "380");
 		songFind.attr("frameborder", "0");
         songFind.attr("allowtransparency", "true");
         songFind.attr("allow", "encrypted-media");
-		songFind.appendTo($("#refresh-btn"));
-	console.log(songFindAddy);
+		songFind.appendTo(spotifyIframe);
+	 console.log(songFindAddy);
 
    
 });
