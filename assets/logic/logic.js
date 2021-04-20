@@ -31,7 +31,7 @@ var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/";
 
 var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
 var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
-
+var currentPlaylist = $('#playlists').val()
 
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
@@ -136,9 +136,6 @@ function handleAuthorizationResponse(){
 }
 
 
-
-
-
 function callApi(method, url, body, callback){
     var xhr = new XMLHttpRequest();
     xhr.open(method,url,true);
@@ -158,7 +155,7 @@ function handlePlaylistsResponse(){
         console.log(data);
         removeAllItems("playlists");
         data.items.forEach(item => addPlaylist(item));
-        document.getElementById('playlists').value=currentPlaylist;
+        
     }
     else if ( this.status == 401 ){
         refreshAccessToken()
@@ -182,4 +179,16 @@ function removeAllItems(elementId){
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
+}
+function generatePlaylist(){
+var iframeSpot = $("<iframe>")
+var spotEmbed = "https://open.spotify.com/embed/playlist/0L1sXGWh3IwgLxeRxT4TUj"
+iframe.attr("src", spotEmbed);
+		iframeSpot.attr("width", "300");
+		iframeSpot.attr("height", "380");
+		iframeSpot.attr("frameborder", "0");
+        iframeSpot.attr("allowtransparency", "true")
+        iframeSpot.attr("allow","encrypted-media")
+		iframeSpot.appendTo(".musicLeft");
+     
 }
