@@ -171,9 +171,9 @@ function callApi(method, url, body, callback){
     xhr.onload = callback;
 }
 
-// function refreshPlaylists(){
-//     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
-// }
+ function refreshPlaylists(){
+     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
+ }
 
 function handlePlaylistsResponse(){
     if ( this.status == 200 ){
