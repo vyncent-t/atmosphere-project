@@ -23,31 +23,63 @@
         </div>
        
       </section>
-		<br>
+
+
+	  <br>
     
       <div class="columns">
         <div class="column is-two-fifths">
-			
             
-            <p class="notification is-info is-size-5"> Your mood playlist </p>
+            <p class="notification is-info is-size-5"> Your playlist
 
-			<aside class="musicleft">
-				<input id="spotifycontent" class="btn btn-primary btn-lg" type="button" onclick="requestAuthorization()" value="Request Authorization">
-		
-				<br/>
-		
-					<div class="mb-3">
-						<label for="playlists" class="form-label">Playlists</label>
-						<select id="playlists" class="form-control">
-						</select>
-						<input class="btn btn-primary btn-sm mt-3" type="button" onclick="refreshPlaylists()" value="Refresh Playlists">
-						<iframe src="https://open.spotify.com/embed/playlist/0L1sXGWh3IwgLxeRxT4TUj" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-					</div>
-			</aside>
-          
+				<div id="genre-options">
+					<ul id="genre-list">
+						<li class="button is-medium is-fullwidth" id="classical" value="classical">
+							<h3>Classical</h3>
+						</li>
+						<li class="button is-medium is-fullwidth" id="soft-rock" value="soft-rock">
+							<h3>Soft Rock</h3>
+						</li>
+						<li class="button is-medium is-fullwidth" id="jazz-blues"
+						value="jazz-blues">
+							<h3>Jazz Blues</h3>
+						</li>
+						<li class="button is-medium is-fullwidth" id="rhythm-and-blues" value="rhythm-and-blues">
+							<h3>Rhythm and Blues</h3>
+						</li>
+						<li class="button is-medium is-fullwidth"id="indie-electronic" value="indie-electronic">
+							<h3>Indie Electronic</h3>
+						</li>
+					</ul>
+				</div>
+			</div> 			
+  <!-- Div for visual choices -->
+      <!-- <div id="visual-options">
+        <ul id="visual-list">
+            <li id="forests">
+                <h3>Forest</h3>
+            </li>
+            <li id="beach">
+                <h3>Beach</h3>
+            </li>
+            <li id="space">
+                <h3>Space</h3>
+            </li>
+            <li id="plains">
+                <h3>Plains</h3>
+            </li>
+            <li id="northern-lights">
+                <h3>Northern Lights</h3>
+            </li>
+        </ul>
+    </div> -->
+               <!-- Div for genres choices -->
 
-            
-        </div> 
+
+   
+	
+
+		
         <div id="ytfield" class="column is-three-fifths">
           <input id="youtubesearch" class="input" type="text" placeholder="Beach, rain, sunny etc.">
 		  <div class="buttons">
@@ -59,6 +91,51 @@
        
     
       </div>
+    
+
+
+
+
+		<br>
+    
+     
+
+		
+		<div class="mb-3">
+			<label for="playlists" class="form-label">Playlists</label>
+			<!-- <select id="playlists" class="form-control">
+			</select> -->
+			<input id="refresh-btn" class="btn btn-primary btn-sm mt-3" type="button" value="Refresh Playlists">
+			<div id="spotify-frame">
+				<!-- spotify iframe goes here -->
+			</div>
+		</div>
+	</aside>
+
+
+	
+  
+
+
+
+	 <!-- 
+				<aside class="musicleft">
+					<input id="spotifycontent" class="btn btn-primary btn-lg" type="button" onclick="requestAuthorization()" value="Request Authorization">
+			
+					<br/>
+			
+						<div class="mb-3">
+							<label for="playlists" class="form-label">Playlists</label>
+							<select id="playlists" class="form-control">
+							</select>
+							<input class="btn btn-primary btn-sm mt-3" type="button" onclick="refreshPlaylists()" value="Refresh Playlists">
+							<iframe src="https://open.spotify.com/embed/playlist/0L1sXGWh3IwgLxeRxT4TUj" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+						</div>
+				</aside> -->
+          
+
+            
+      
     
        
       </section>
@@ -72,10 +149,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://apis.google.com/js/api.js"></script>
 	<script src="https://apis.google.com/js/client.js?onload=load"> </script>   
-	
-
-
-		<script src="assets/logic/logic.js"></script>
+	<script src="assets/logic/logic.js"></script>
 
 	</main>
 </body>
