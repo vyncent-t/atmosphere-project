@@ -17,12 +17,56 @@
 
             <div class="mb-3">
             	<label for="playlists" class="form-label">Playlists</label>
-            	<select id="playlists" class="form-control">
-            	</select>
-            	<input class="btn btn-primary btn-sm mt-3" type="button" onclick="refreshPlaylists()" value="Refresh Playlists">
-				<!-- iframe is appended to this -->
+            	<!-- <select id="playlists" class="form-control">
+            	</select> -->
+            	<input id="refresh-btn" class="btn btn-primary btn-sm mt-3" type="button" value="Refresh Playlists">
+				<div id="spotify-frame">
+                    <!-- spotify iframe goes here -->
+                </div>
 			</div>
 	</aside>
+    <!-- Div for genres choices -->
+    <div id="genre-options">
+        <ul id="genre-list">
+            <li id="classical" value="classical">
+                <h3>Classical</h3>
+            </li>
+            <li id="soft-rock" value="soft-rock">
+                <h3>Soft Rock</h3>
+            </li>
+            <li id="jazz-blues"
+            value="jazz-blues">
+                <h3>Jazz Blues</h3>
+            </li>
+            <li id="rhythm-and-blues" value="rhythm-and-blues">
+                <h3>Rhythm and Blues</h3>
+            </li>
+            <li id="indie-electronic" value="indie-electronic">
+                <h3>Indie Electronic</h3>
+            </li>
+        </ul>
+    </div>
+
+      <!-- Div for visual choices -->
+      <!-- <div id="visual-options">
+        <ul id="visual-list">
+            <li id="forests">
+                <h3>Forest</h3>
+            </li>
+            <li id="beach">
+                <h3>Beach</h3>
+            </li>
+            <li id="space">
+                <h3>Space</h3>
+            </li>
+            <li id="plains">
+                <h3>Plains</h3>
+            </li>
+            <li id="northern-lights">
+                <h3>Northern Lights</h3>
+            </li>
+        </ul>
+    </div> -->
 
 	<aside class="youtubeonly">
     <div id="ytfield">

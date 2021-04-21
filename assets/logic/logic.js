@@ -25,7 +25,7 @@ $(document).ready(function () {
 
 	function execute() {
 		gapi.client.youtube.search.list(
-			{"q": searchinput.val()} )
+            {"q": `${searchinput.val()} meditation`} )
 			.then(function(response) {
 				// Handle the results here (response.result has the parsed body).
 				// debugger
@@ -73,7 +73,6 @@ function onPageLoad(){
    
         }
     
-   
 
 
 function handleRedirect(){
@@ -172,9 +171,9 @@ function callApi(method, url, body, callback){
     xhr.onload = callback;
 }
 
-function refreshPlaylists(){
-    callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
-}
+// function refreshPlaylists(){
+//     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
+// }
 
 function handlePlaylistsResponse(){
     if ( this.status == 200 ){
@@ -207,3 +206,110 @@ function removeAllItems(elementId){
         node.removeChild(node.firstChild);
     }
 }
+
+
+
+//Object that holds all the spotify IDs for each genre
+var genres = {
+
+    classical: {
+        beethoven: "20GYbni2QFEhElzmJDVOLE",
+        bocelli: "3uARqNN4bYqts3Ltg5Jku3",
+        pavarotti: "4uqcr1BXoigCnQ9POw0YYP",
+        mozart: "75GZdd2yVQRz1whnrq4tbK"
+    },
+    softRock: {
+        fleetwoodMac: "0BwWUstDMUbgq2NYONRqlu",
+        extreme: "7DKHQxJTI32UyCdDdGwvRC",
+        neilDiamond: "6RfgcwsOUlWkGNAd6zjjYd",
+        ericCarmen: "02CxAhdSRhzcm6XQ8m5RNp"
+    },
+    jazzBlues: {
+        dukeElling: "5HRYqb7mp810fhgWiUL0uo",
+        ellaFitz: "1vvnTmmNWnGmqvVFjVIINf",
+        louisArm: "6mmv0gwumlFGWDGJXF4yEv",
+        rayCharles: "2HoXseQsMnDKs1sDSB2BfH"
+    },
+    rhythmAndBlues: {
+        laurynHill: "18XFe4CPBgVezXkxZP6rTb",
+        boyz2Men: "7JnLsJWNUf50DGZ5JhBgbO",
+        aliciaKeys: "6TqRKHLjDu5QZuC8u5Woij",
+        mackMorrison: "6plavTFCGXv5vpy0jZVtOV"
+    },
+
+    indieElectric: {
+        xx: "6Zw6NKh3oIUhDRMOyBmsUU",
+        prettyLights: "5E5U9ckjlBvJ3qkNAAqESY",
+        wet: "4vTrbwGUedO7SN3DqNOiYU",
+        shallou: "4RY8E9iJR1Ec6d3FXqqodJ"
+    }
+
+
+}
+function getRandomKey(object){
+    var objectKeys = Object.keys(object);
+    var randomPosition = Math.floor(Math.random()*objectKeys.length);
+    return objectKeys[randomPosition];
+}
+
+
+//Event listener for the ul genre selections
+$("#genre-list").on("click", 'li', function(event){
+    console.log(event);
+    // Gets the value attribute that was selected
+    var choiceValue = event.currentTarget.getAttribute("value");
+    console.log(choiceValue);
+
+    // Gets random genre choices from object
+    var randomClassical = genres.classical[getRandomKey(genres.classical)];
+
+    var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
+
+    var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
+
+    var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.rhythmAndBlues)];
+
+    var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
+
+    // Build url to have iframe embedded
+    var songFind = $("<iframe>");
+    var spotifyIframe = $("#spotify-frame");
+    let songFindAddy = "https://open.spotify.com/embed/album/";
+
+        if(choiceValue === "classical"){
+            songFindAddy += randomClassical;
+        } else if (choiceValue === "soft-rock"){
+            songFindAddy += randomSoftRock;
+        } else if (choiceValue === "jazz-blues"){
+            songFindAddy += randomJazzBlue;
+        } else if (choiceValue ==="rhythm-and-blues"){
+            songFindAddy += randomRandB;
+        } else if (choiceValue === "indie-electronic"){
+            songFindAddy += randomIndieElec;
+        };
+
+        spotifyIframe.empty();
+		songFind.attr("src", songFindAddy);
+		songFind.attr("width", "300");
+		songFind.attr("height", "380");
+		songFind.attr("frameborder", "0");
+        songFind.attr("allowtransparency", "true");
+        songFind.attr("allow", "encrypted-media");
+		songFind.appendTo(spotifyIframe);
+	 console.log(songFindAddy);
+
+   
+});
+
+
+
+
+//Event listener on ul to grab value of li selected and pick random number
+// Use number to select song from genre Array
+// Store selected song to add to URL
+// Change html content for iframe with new concactonated iframe tag
+    //Still left to do:
+    // Get the Ids for each song.
+    // Be able to get every artist's song by random selection(objects or array?)
+    // For loop for the entire list
+    // Final check to see if the embedding works
