@@ -305,12 +305,4 @@ $("#genre-list").on("click", 'li', function(event){
 
 
 
-//Event listener on ul to grab value of li selected and pick random number
-// Use number to select song from genre Array
-// Store selected song to add to URL
-// Change html content for iframe with new concactonated iframe tag
-    //Still left to do:
-    // Get the Ids for each song.
-    // Be able to get every artist's song by random selection(objects or array?)
-    // For loop for the entire list
-    // Final check to see if the embedding works
+
