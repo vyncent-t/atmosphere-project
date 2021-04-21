@@ -208,6 +208,16 @@ function removeAllItems(elementId){
     }
 }
 
+// spotify data logic
+function spotifyAlbumSearch () {
+    console.log('Print data from albums')
+    genreChoice = 'lofi'
+    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`)
+    .then(response => response.json()).then(data => console.log(data))
+}
+
+let refreshButt = $('#refresh-btn')
+refreshButt.on('click',spotifyAlbumSearch)
 
 
 //Object that holds all the spotify IDs for each genre
