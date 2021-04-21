@@ -25,7 +25,7 @@ $(document).ready(function () {
 
 	function execute() {
 		gapi.client.youtube.search.list(
-			{"q": searchinput.val()} )
+			{"q": `${searchinput.val()} meditation`} )
 			.then(function(response) {
 				// Handle the results here (response.result has the parsed body).
 				// debugger
