@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-.subtitle {
-    font-family: Snell Roundhand, cursive;
-}
-
-.header-image { background-image: url("beach-background.jpg"); ; background-repeat: no-repeat; background-position: 100%; background-size: cover;; }
-
-
-=======
 .musicleft {
     background-color: lightgreen;
 }
@@ -19,4 +10,10 @@ display: flex;
 flex-direction: row;
 justify-content: space-between;
 }
->>>>>>> 5653132ce9277de1ab386f04fd0982a75bbb224d
+.subtitle {
+    font-family: Snell Roundhand, cursive;
+}
+
+.header-image { background-image: url("beach-background.jpg"); ; background-repeat: no-repeat; background-position: 100%; background-size: 100% ; }
+
+
