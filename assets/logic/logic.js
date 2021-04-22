@@ -219,13 +219,13 @@ function spotifyAlbumSearch (genre) {
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
     .then(response => response.json()).then(data => console.log(data));
     console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
-    // genres.${genreChoice}.playlistA = data.playlists.items[0].id;
+    genres[genreChoice].playlistA = data.playlists.items[0].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`)
-    // genres.${genreChoice}.playlistB = data.playlists.items[1].id;
+    genres[genreChoice].playlistB = data.playlists.items[1].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`)
-    // genres.${genreChoice}.playlistC = data.playlists.items[2].id;
+    genres[genreChoice].playlistC = data.playlists.items[2].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`)
-    // genres.${genreChoice}.playlistD = data.playlists.items[3].id;
+    genres[genreChoice].playlistD = data.playlists.items[3].id;
 }
 
 let refreshButt = $('#refresh-btn')
