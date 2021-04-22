@@ -256,6 +256,7 @@ var genres = {
     return objectKeys[randomPosition];
 }
 
+debugger
     console.log('Print data from albums');
     genreChoice = genre;
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
@@ -279,7 +280,7 @@ var genres = {
     // return playlistCodes
 
     // Gets random genre choices from object
-    var randomClassical = genres.classical[getRandomKey(genres.classical)];
+    var randomClassical = genres[classical][getRandomKey(genres.classical)];
     let classicalPlaylist = $('genres.classical')
 
     classicalPlaylist.addobjectkey(playlistCodes[randomPlaylistCode])
@@ -325,8 +326,8 @@ var genres = {
 
 }
 
-// let refreshButt = $('#refresh-btn')
-// refreshButt.on('click',spotifyAlbumSearch)
+let refreshButt = $('#refresh-btn')
+refreshButt.on('click',spotifyAlbumSearch)
 
 
 
@@ -335,10 +336,10 @@ var genres = {
 $("#genre-list").on("click", 'li', function(event){
     console.log(event);
     // Gets the value attribute that was selected
+    debugger
     var choiceValue = event.currentTarget.getAttribute("value");
     console.log(choiceValue);
-    spotifyAlbumSearch(choiceValue)
-
+    spotifyAlbumSearch(choiceValue);
 
    
 });
