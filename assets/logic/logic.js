@@ -143,7 +143,6 @@ function handleAuthorizationResponse(){
     if ( this.status == 200 ){
         var data = JSON.parse(this.responseText);
         console.log(data);
-        var data = JSON.parse(this.responseText);
         if ( data.access_token != undefined ){
             spotify_token = data.access_token;
              localStorage.setItem("access_token", access_token);
@@ -213,12 +212,20 @@ function removeAllItems(elementId){
 
 
 
-function spotifyAlbumSearch () {
+function spotifyAlbumSearch (genre) {
 
     console.log('Print data from albums');
-    genreChoice = 'lofi';
+    genreChoice = genre;
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
-    .then(response => response.json()).then(data => console.log(data))
+    .then(response => response.json()).then(data => console.log(data));
+    console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
+    genres.${genreChoice}.playlistA = data.playlists.items[0].id
+    console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`)
+    genres.${genreChoice}.playlistB = data.playlists.items[1].id
+    console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`)
+    genres.${genreChoice}.playlistC = data.playlists.items[2].id
+    console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`)
+    genres.${genreChoice}.playlistD = data.playlists.items[3].id
 }
 
 let refreshButt = $('#refresh-btn')
@@ -229,16 +236,16 @@ refreshButt.on('click',spotifyAlbumSearch)
 var genres = {
 
     classical: {
-        beethoven: "20GYbni2QFEhElzmJDVOLE",
-        bocelli: "3uARqNN4bYqts3Ltg5Jku3",
-        pavarotti: "4uqcr1BXoigCnQ9POw0YYP",
-        mozart: "75GZdd2yVQRz1whnrq4tbK"
+        playlistA: data.playlists.items[0].id,
+        playlistB: data.playlists.items[1].id,
+        playlistC: data.playlists.items[2].id,
+        playlistD: data.playlists.items[3].id
     },
     softRock: {
-        fleetwoodMac: "0BwWUstDMUbgq2NYONRqlu",
-        extreme: "7DKHQxJTI32UyCdDdGwvRC",
-        neilDiamond: "6RfgcwsOUlWkGNAd6zjjYd",
-        ericCarmen: "02CxAhdSRhzcm6XQ8m5RNp"
+        playlistA: data.playlists.items[0].id,
+        playlistB: data.playlists.items[1].id,
+        playlistC: data.playlists.items[2].id,
+        playlistD: data.playlists.items[3].id
     },
     jazzBlues: {
         dukeElling: "5HRYqb7mp810fhgWiUL0uo",
@@ -275,7 +282,7 @@ $("#genre-list").on("click", 'li', function(event){
     // Gets the value attribute that was selected
     var choiceValue = event.currentTarget.getAttribute("value");
     console.log(choiceValue);
-
+    spotifyAlbumSearch(choiceValue)
     // Gets random genre choices from object
     var randomClassical = genres.classical[getRandomKey(genres.classical)];
 
@@ -290,7 +297,7 @@ $("#genre-list").on("click", 'li', function(event){
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
     var spotifyIframe = $("#spotify-frame");
-    let songFindAddy = "https://open.spotify.com/embed/album/";
+    let songFindAddy = "https://open.spotify.com/embed/playlist/";
 
         if(choiceValue === "classical"){
             songFindAddy += randomClassical;
