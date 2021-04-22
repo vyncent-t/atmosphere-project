@@ -50,37 +50,33 @@ let spotify_token = ''
 	searchbutton.on("click", youtubePlayer);
 });
 
-// POINT BEFORE THINGS BREAK AGAIN
-
 //spotify logic
 
-var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/"; 
+var redirect_uri = "http://127.0.0.1:5500/index.html"; 
 
 var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
-var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
+var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; 
 
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
 const TOKEN = "https://accounts.spotify.com/api/token";
-const PLAYLISTS = "https://api.spotify.com/v1/me/playlists";
-
 
 function onPageLoad(){
-    // client_id = localStorage.getItem("client_id");
-    // client_secret = localStorage.getItem("client_secret");
+   
 
     if ( window.location.search.length > 0 ){
         handleRedirect();
+        $("#auth").hide();
+        spotifyAlbumSearch();
+        
     }
    
         }
-    
-
 
 function handleRedirect(){
     let code = getCode();
     fetchAccessToken( code );
-    window.history.pushState("", "", redirect_uri); // remove param from url
+    window.history.pushState("", "", redirect_uri); 
 }
 
 function getCode(){
@@ -93,14 +89,8 @@ function getCode(){
     return code;
 }
 
+//Concatenated urls to retrieve authorization,access and refresh tokens.
 function requestAuthorization(){
-    // client_id.value;
-    // client_secret.value;
-
-    // localStorage.setItem("client_id", client_id);
-    // localStorage.setItem("client_secret", client_secret); 
-	
-	// In a real app you should not expose your client_secret to the user
 
     let url = AUTHORIZE;
     url += "?client_id=" + client_id;
@@ -128,6 +118,7 @@ function refreshAccessToken(code){
     callAuthorizationApi(body);
 }
 
+//Header for Authorization call
 function callAuthorizationApi(body){
     let xhr = new XMLHttpRequest();
     xhr.open("POST", TOKEN, true);
@@ -145,11 +136,11 @@ function handleAuthorizationResponse(){
         console.log(data);
         if ( data.access_token != undefined ){
             spotify_token = data.access_token;
-             localStorage.setItem("access_token", access_token);
+             //localStorage.setItem("access_token", access_token);
         }
         if ( data.refresh_token  != undefined ){
             refresh_token = data.refresh_token;
-             localStorage.setItem("refresh_token", refresh_token);
+             //localStorage.setItem("refresh_token", refresh_token);
         }
         onPageLoad();
     }
@@ -159,59 +150,6 @@ function handleAuthorizationResponse(){
     }
 }
 
-
-
-
-
-function callApi(method, url, body, callback){
-    var xhr = new XMLHttpRequest();
-    xhr.open(method,url,true);
-    xhr.setRequestHeader('Content-Type','application/json');
-    xhr.setRequestHeader('Authorization','Bearer ' +access_token);
-    xhr.send(body);
-    xhr.onload = callback;
-
-}
-
- function refreshPlaylists(){
-     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
- }
-
-function handlePlaylistsResponse(){
-    if ( this.status == 200 ){
-        var data = JSON.parse(this.responseText);
-        console.log(data);
-        spotify_token = data.access_token
-        removeAllItems("playlists");
-        data.items.forEach(item => addPlaylist(item));
-        // document.getElementById('playlists').value=currentPlaylist;
-    }
-    else if ( this.status == 401 ){
-        refreshAccessToken()
-    }
-    else {
-        console.log(this.responseText);
-        alert(this.responseText);
-    }
-}
-
-function addPlaylist(item){
-    let node = document.createElement("option");
-    node.value = item.id;
-    node.innerHTML = item.name + " (" + item.tracks.total + ")";
-    document.getElementById("playlists").appendChild(node); 
-}
-
-
-function removeAllItems(elementId){
-    var node = document.getElementById(elementId);
-    while (node.firstChild) {
-        node.removeChild(node.firstChild);
-    }
-}
-
-
-
 function spotifyAlbumSearch (genre) {
 
     console.log('Print data from albums');
@@ -219,21 +157,21 @@ function spotifyAlbumSearch (genre) {
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
     .then(response => response.json()).then(data => console.log(data));
     console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
-    genres.${genreChoice}.playlistA = data.playlists.items[0].id
+    genres.$[genreChoice].playlistA = data.playlists.items[0].id
     console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`)
-    genres.${genreChoice}.playlistB = data.playlists.items[1].id
+    genres.$[genreChoice].playlistB = data.playlists.items[1].id
     console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`)
-    genres.${genreChoice}.playlistC = data.playlists.items[2].id
+    genres.$[genreChoice].playlistC = data.playlists.items[2].id
     console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`)
-    genres.${genreChoice}.playlistD = data.playlists.items[3].id
-}
+    genres.$[genreChoice].playlistD = data.playlists.items[3].id
+ }
 
-let refreshButt = $('#refresh-btn')
-refreshButt.on('click',spotifyAlbumSearch)
+ let refreshButt = $('#refresh-btn')
+  refreshButt.on('click',spotifyAlbumSearch)
 
 
-//Object that holds all the spotify IDs for each genre
-var genres = {
+ //Object that holds all the spotify IDs for each genre
+ var genres = {
 
     classical: {
         playlistA: data.playlists.items[0].id,
