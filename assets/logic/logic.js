@@ -117,6 +117,7 @@ function fetchAccessToken( code ){
     body += "&client_id=" + client_id;
     body += "&client_secret=" + client_secret;
     callAuthorizationApi(body);
+    console.log(body);
 }
 
 function refreshAccessToken(code){
