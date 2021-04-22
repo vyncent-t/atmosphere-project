@@ -58,7 +58,6 @@ var client_id = "50885eb87ce14757bdde10e7fb01f91a";
 var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
 
 
-
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
 const TOKEN = "https://accounts.spotify.com/api/token";
 const PLAYLISTS = "https://api.spotify.com/v1/me/playlists";
@@ -120,7 +119,7 @@ function fetchAccessToken( code ){
 }
 
 function refreshAccessToken(code){
-    // refresh_token = localStorage.getItem("refresh_token");
+    refresh_token = localStorage.getItem("refresh_token");
     let body = "grant_type=refresh_token";
     body += "&refresh_token=" + refresh_token;
     body += "&client_id=" + client_id;
@@ -145,11 +144,11 @@ function handleAuthorizationResponse(){
         var data = JSON.parse(this.responseText);
         if ( data.access_token != undefined ){
             access_token = data.access_token;
-            // localStorage.setItem("access_token", access_token);
+             localStorage.setItem("access_token", access_token);
         }
         if ( data.refresh_token  != undefined ){
             refresh_token = data.refresh_token;
-            // localStorage.setItem("refresh_token", refresh_token);
+             localStorage.setItem("refresh_token", refresh_token);
         }
         onPageLoad();
     }
@@ -172,9 +171,9 @@ function callApi(method, url, body, callback){
     xhr.onload = callback;
 }
 
-// function refreshPlaylists(){
-//     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
-// }
+ function refreshPlaylists(){
+     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
+ }
 
 function handlePlaylistsResponse(){
     if ( this.status == 200 ){
