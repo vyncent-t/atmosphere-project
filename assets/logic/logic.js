@@ -219,13 +219,13 @@ function spotifyAlbumSearch (genre) {
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
     .then(response => response.json()).then(data => console.log(data));
     console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
-    genres.${genreChoice}.playlistA = data.playlists.items[0].id
+    genres[genreChoice].playlistA = data.playlists.items[0].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`)
-    genres.${genreChoice}.playlistB = data.playlists.items[1].id
+    genres[genreChoice].playlistB = data.playlists.items[1].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`)
-    genres.${genreChoice}.playlistC = data.playlists.items[2].id
+    genres[genreChoice].playlistC = data.playlists.items[2].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`)
-    genres.${genreChoice}.playlistD = data.playlists.items[3].id
+    genres[genreChoice].playlistD = data.playlists.items[3].id;
 }
 
 let refreshButt = $('#refresh-btn')
@@ -248,23 +248,23 @@ var genres = {
         playlistD: data.playlists.items[3].id
     },
     jazzBlues: {
-        dukeElling: "5HRYqb7mp810fhgWiUL0uo",
-        ellaFitz: "1vvnTmmNWnGmqvVFjVIINf",
-        louisArm: "6mmv0gwumlFGWDGJXF4yEv",
-        rayCharles: "2HoXseQsMnDKs1sDSB2BfH"
+        playlistA: data.playlists.items[0].id,
+        playlistB: data.playlists.items[1].id,
+        playlistC: data.playlists.items[2].id,
+        playlistD: data.playlists.items[3].id
     },
     rhythmAndBlues: {
-        laurynHill: "18XFe4CPBgVezXkxZP6rTb",
-        boyz2Men: "7JnLsJWNUf50DGZ5JhBgbO",
-        aliciaKeys: "6TqRKHLjDu5QZuC8u5Woij",
-        mackMorrison: "6plavTFCGXv5vpy0jZVtOV"
+        playlistA: data.playlists.items[0].id,
+        playlistB: data.playlists.items[1].id,
+        playlistC: data.playlists.items[2].id,
+        playlistD: data.playlists.items[3].id
     },
 
     indieElectric: {
-        xx: "6Zw6NKh3oIUhDRMOyBmsUU",
-        prettyLights: "5E5U9ckjlBvJ3qkNAAqESY",
-        wet: "4vTrbwGUedO7SN3DqNOiYU",
-        shallou: "4RY8E9iJR1Ec6d3FXqqodJ"
+        playlistA: data.playlists.items[0].id,
+        playlistB: data.playlists.items[1].id,
+        playlistC: data.playlists.items[2].id,
+        playlistD: data.playlists.items[3].id
     }
 
 
@@ -301,13 +301,13 @@ $("#genre-list").on("click", 'li', function(event){
 
         if(choiceValue === "classical"){
             songFindAddy += randomClassical;
-        } else if (choiceValue === "soft-rock"){
+        } else if (choiceValue === "soft rock"){
             songFindAddy += randomSoftRock;
-        } else if (choiceValue === "jazz-blues"){
+        } else if (choiceValue === "jazz blues"){
             songFindAddy += randomJazzBlue;
-        } else if (choiceValue ==="rhythm-and-blues"){
+        } else if (choiceValue ==="rhythm and blues"){
             songFindAddy += randomRandB;
-        } else if (choiceValue === "indie-electronic"){
+        } else if (choiceValue === "indie electronic"){
             songFindAddy += randomIndieElec;
         };
 
