@@ -119,7 +119,7 @@ function fetchAccessToken( code ){
 }
 
 function refreshAccessToken(code){
-    // refresh_token = localStorage.getItem("refresh_token");
+    refresh_token = localStorage.getItem("refresh_token");
     let body = "grant_type=refresh_token";
     body += "&refresh_token=" + refresh_token;
     body += "&client_id=" + client_id;
@@ -144,11 +144,11 @@ function handleAuthorizationResponse(){
         var data = JSON.parse(this.responseText);
         if ( data.access_token != undefined ){
             access_token = data.access_token;
-            // localStorage.setItem("access_token", access_token);
+             localStorage.setItem("access_token", access_token);
         }
         if ( data.refresh_token  != undefined ){
             refresh_token = data.refresh_token;
-            // localStorage.setItem("refresh_token", refresh_token);
+             localStorage.setItem("refresh_token", refresh_token);
         }
         onPageLoad();
     }
