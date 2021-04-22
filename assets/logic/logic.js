@@ -213,33 +213,14 @@ function removeAllItems(elementId){
 
 
 function spotifyAlbumSearch (genre) {
-
-    console.log('Print data from albums');
-    genreChoice = genre;
-    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
-    .then(response => response.json()).then(data => console.log(data));
-    console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
-    genres[genreChoice].playlistA = data.playlists.items[0].id;
-    console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`)
-    genres[genreChoice].playlistB = data.playlists.items[1].id;
-    console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`)
-    genres[genreChoice].playlistC = data.playlists.items[2].id;
-    console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`)
-    genres[genreChoice].playlistD = data.playlists.items[3].id;
-}
-
-let refreshButt = $('#refresh-btn')
-refreshButt.on('click',spotifyAlbumSearch)
-
-
 //Object that holds all the spotify IDs for each genre
 var genres = {
 
     classical: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
+        // playlistA: data.playlists.items[0].id,
+        // playlistB: data.playlists.items[1].id,
+        // playlistC: data.playlists.items[2].id,
+        // playlistD: data.playlists.items[3].id
     },
     softRock: {
         playlistA: data.playlists.items[0].id,
@@ -266,25 +247,45 @@ var genres = {
         playlistC: data.playlists.items[2].id,
         playlistD: data.playlists.items[3].id
     }
-
-
 }
-function getRandomKey(object){
+
+
+    function getRandomKey(object){
     var objectKeys = Object.keys(object);
     var randomPosition = Math.floor(Math.random()*objectKeys.length);
     return objectKeys[randomPosition];
 }
 
+    console.log('Print data from albums');
+    genreChoice = genre;
+    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
+    .then(response => response.json()).then(data => console.log(data));
+    console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`);
+    // genres[genreChoice].playlistA = data.playlists.items[0].id;
+    var playlistA = data.playlists.items[0].id
+    console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`);
+    // genres[genreChoice].playlistB = data.playlists.items[1].id;
+    var playlistB = data.playlists.items[1].id
+    console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`);
+    // genres[genreChoice].playlistC = data.playlists.items[2].id;
+    var playlistC = data.playlists.items[2].id
+    console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`);
+    // genres[genreChoice].playlistD = data.playlists.items[3].id;
+    var playlistD = data.playlists.items[3].id
 
-//Event listener for the ul genre selections
-$("#genre-list").on("click", 'li', function(event){
-    console.log(event);
-    // Gets the value attribute that was selected
-    var choiceValue = event.currentTarget.getAttribute("value");
-    console.log(choiceValue);
-    spotifyAlbumSearch(choiceValue)
+    var playlistCodes = [playlistA,playlistB,playlistC,playlistD]
+    console.log(`Playlist codes: ${playlistCodes}`)
+
+    // return playlistCodes
+
     // Gets random genre choices from object
     var randomClassical = genres.classical[getRandomKey(genres.classical)];
+    let classicalPlaylist = $('genres.classical')
+
+    classicalPlaylist.addobjectkey(playlistCodes[randomPlaylistCode])
+    classicalPlaylist.value('playlist A')
+
+
 
     var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
 
@@ -299,15 +300,16 @@ $("#genre-list").on("click", 'li', function(event){
     var spotifyIframe = $("#spotify-frame");
     let songFindAddy = "https://open.spotify.com/embed/playlist/";
 
-        if(choiceValue === "classical"){
+
+        if(genreChoice === "classical"){
             songFindAddy += randomClassical;
-        } else if (choiceValue === "soft rock"){
+        } else if (genreChoice === "soft rock"){
             songFindAddy += randomSoftRock;
-        } else if (choiceValue === "jazz blues"){
+        } else if (genreChoice === "jazz blues"){
             songFindAddy += randomJazzBlue;
-        } else if (choiceValue ==="rhythm and blues"){
+        } else if (genreChoice ==="rhythm and blues"){
             songFindAddy += randomRandB;
-        } else if (choiceValue === "indie electronic"){
+        } else if (genreChoice === "indie electronic"){
             songFindAddy += randomIndieElec;
         };
 
@@ -319,7 +321,24 @@ $("#genre-list").on("click", 'li', function(event){
         songFind.attr("allowtransparency", "true");
         songFind.attr("allow", "encrypted-media");
 		songFind.appendTo(spotifyIframe);
-	 console.log(songFindAddy);
+	console.log(songFindAddy);
+
+}
+
+// let refreshButt = $('#refresh-btn')
+// refreshButt.on('click',spotifyAlbumSearch)
+
+
+
+
+//Event listener for the ul genre selections
+$("#genre-list").on("click", 'li', function(event){
+    console.log(event);
+    // Gets the value attribute that was selected
+    var choiceValue = event.currentTarget.getAttribute("value");
+    console.log(choiceValue);
+    spotifyAlbumSearch(choiceValue)
+
 
    
 });
