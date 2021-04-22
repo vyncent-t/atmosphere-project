@@ -3,6 +3,8 @@ $(document).ready(function () {
 	let searchinput = $("#youtubesearch");
 	let userVisualChoice;
 	let clientLoaded = false
+    // spotify data logic
+let spotify_token = ''
 
 	//replace this with project account key later
 
@@ -143,7 +145,7 @@ function handleAuthorizationResponse(){
         console.log(data);
         var data = JSON.parse(this.responseText);
         if ( data.access_token != undefined ){
-            access_token = data.access_token;
+            spotify_token = data.access_token;
              localStorage.setItem("access_token", access_token);
         }
         if ( data.refresh_token  != undefined ){
@@ -209,8 +211,7 @@ function removeAllItems(elementId){
     }
 }
 
-// spotify data logic
-let spotify_token = ''
+
 
 function spotifyAlbumSearch () {
 
