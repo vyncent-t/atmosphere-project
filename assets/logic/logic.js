@@ -217,7 +217,7 @@ function spotifyAlbumSearch () {
     console.log('Print data from albums');
     genreChoice = 'lofi';
     const myHeaders = new Headers();
-    myHeaders.append('Authorization', spotify_token);
+    myHeaders.append('Authorization', `Bearer ${spotify_token}`);
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: myHeaders})
     .then(response => response.json()).then(data => console.log(data))
 }
