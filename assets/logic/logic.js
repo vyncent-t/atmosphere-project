@@ -169,6 +169,7 @@ function callApi(method, url, body, callback){
     xhr.setRequestHeader('Authorization','Bearer ' +access_token);
     xhr.send(body);
     xhr.onload = callback;
+
 }
 
  function refreshPlaylists(){
@@ -179,6 +180,7 @@ function handlePlaylistsResponse(){
     if ( this.status == 200 ){
         var data = JSON.parse(this.responseText);
         console.log(data);
+        spotify_token = data.access_token
         removeAllItems("playlists");
         data.items.forEach(item => addPlaylist(item));
         // document.getElementById('playlists').value=currentPlaylist;
@@ -208,10 +210,15 @@ function removeAllItems(elementId){
 }
 
 // spotify data logic
+let spotify_token = ''
+
 function spotifyAlbumSearch () {
+
     console.log('Print data from albums');
     genreChoice = 'lofi';
-    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`)
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', spotify_token);
+    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: myHeaders})
     .then(response => response.json()).then(data => console.log(data))
 }
 
