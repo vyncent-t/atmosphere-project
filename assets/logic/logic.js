@@ -212,24 +212,31 @@ function removeAllItems(elementId){
 
 
 
-function spotifyAlbumSearch (genre) {
+
+
+
+//Event listener for the ul genre selections
+$("#genre-list").on("click", 'li', function(event){
+
+    function spotifyAlbumSearch (genre) {
 
     console.log('Print data from albums');
     genreChoice = genre;
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
     .then(response => response.json()).then(data => console.log(data));
     console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
-    genres[genreChoice].playlistA = data.playlists.items[0].id;
+    var genres[genreChoice].playlistA = data.playlists.items[0].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`)
-    genres[genreChoice].playlistB = data.playlists.items[1].id;
+    var genres[genreChoice].playlistB = data.playlists.items[1].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`)
-    genres[genreChoice].playlistC = data.playlists.items[2].id;
+    var genres[genreChoice].playlistC = data.playlists.items[2].id;
     console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`)
-    genres[genreChoice].playlistD = data.playlists.items[3].id;
+    var genres[genreChoice].playlistD = data.playlists.items[3].id;
 }
 
-let refreshButt = $('#refresh-btn')
-refreshButt.on('click',spotifyAlbumSearch)
+// let refreshButt = $('#refresh-btn')
+// refreshButt.on('click',spotifyAlbumSearch)
+
 
 
 //Object that holds all the spotify IDs for each genre
@@ -266,18 +273,15 @@ var genres = {
         playlistC: data.playlists.items[2].id,
         playlistD: data.playlists.items[3].id
     }
-
-
 }
+
+
 function getRandomKey(object){
     var objectKeys = Object.keys(object);
     var randomPosition = Math.floor(Math.random()*objectKeys.length);
     return objectKeys[randomPosition];
 }
 
-
-//Event listener for the ul genre selections
-$("#genre-list").on("click", 'li', function(event){
     console.log(event);
     // Gets the value attribute that was selected
     var choiceValue = event.currentTarget.getAttribute("value");
