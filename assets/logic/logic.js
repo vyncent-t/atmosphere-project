@@ -54,7 +54,7 @@ let spotify_token = ''
 
 //spotify logic
 
-var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/"; 
+var redirect_uri = "http://127.0.0.1:5500/index.html"; 
 
 var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
 var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
@@ -216,37 +216,37 @@ function spotifyAlbumSearch (genre) {
 //Object that holds all the spotify IDs for each genre
 var genres = {
 
-    classical: {
-        // playlistA: data.playlists.items[0].id,
-        // playlistB: data.playlists.items[1].id,
-        // playlistC: data.playlists.items[2].id,
-        // playlistD: data.playlists.items[3].id
-    },
-    softRock: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
-    jazzBlues: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
-    rhythmAndBlues: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
+    // classical: {
+    //     playlistA: '',
+    //     playlistB: '',
+    //     playlistC: '',
+    //     playlistD: '',
+    // },
+    // softRock: {
+    //     playlistA: '',
+    //     playlistB: '',
+    //     playlistC: '',
+    //     playlistD: ''
+    // },
+    // jazzBlues: {
+    //     playlistA: '',
+    //     playlistB: '',
+    //     playlistC: '',
+    //     playlistD: ''
+    // },
+    // rhythmAndBlues: {
+    //     playlistA: '',
+    //     playlistB: '',
+    //     playlistC: '',
+    //     playlistD: ''
+    // },
 
-    indieElectric: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    }
+    // indieElectric: {
+    //     playlistA: '',
+    //     playlistB: '',
+    //     playlistC: '',
+    //     playlistD: ''
+    // }
 }
 
 
@@ -260,10 +260,13 @@ debugger
     console.log('Print data from albums');
     genreChoice = genre;
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
-    .then(response => response.json()).then(data => console.log(data));
-    console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`);
+    .then(response => response.json()).then(
+        function (data) {
+            console.log(data)
+                // console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`);
     // genres[genreChoice].playlistA = data.playlists.items[0].id;
     var playlistA = data.playlists.items[0].id
+    console.log(`PLAYLIST CODES: ${playlistA}`)
     console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`);
     // genres[genreChoice].playlistB = data.playlists.items[1].id;
     var playlistB = data.playlists.items[1].id
@@ -279,40 +282,22 @@ debugger
 
     // return playlistCodes
 
-    // Gets random genre choices from object
-    var randomClassical = genres[classical][getRandomKey(genres.classical)];
-    let classicalPlaylist = $('genres.classical')
-
-    classicalPlaylist.addobjectkey(playlistCodes[randomPlaylistCode])
-    classicalPlaylist.value('playlist A')
-
-
-
-    var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
-
-    var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
-
-    var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.rhythmAndBlues)];
-
-    var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
+    let objectKey = genreChoice;
+    genres[objectKey] = playlistCodes;
+    var genreKey = genres[objectKey]
+    console.log(genres)
+    // var playlistIDA = genreKey[0]
+    // var playlistIDB = genreKey[1]
+    // var playlistIDC = genreKey[2]
+    // var playlistIDD = genreKey[3]
+    var randomPositionGenre = Math.floor(Math.random()*genreKey.length);
+    var randomPlaylist = genreKey[randomPositionGenre]
+    console.log(randomPlaylist)
 
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
     var spotifyIframe = $("#spotify-frame");
-    let songFindAddy = "https://open.spotify.com/embed/playlist/";
-
-
-        if(genreChoice === "classical"){
-            songFindAddy += randomClassical;
-        } else if (genreChoice === "soft rock"){
-            songFindAddy += randomSoftRock;
-        } else if (genreChoice === "jazz blues"){
-            songFindAddy += randomJazzBlue;
-        } else if (genreChoice ==="rhythm and blues"){
-            songFindAddy += randomRandB;
-        } else if (genreChoice === "indie electronic"){
-            songFindAddy += randomIndieElec;
-        };
+    let songFindAddy = `https://open.spotify.com/embed/playlist/${randomPlaylist}`;
 
         spotifyIframe.empty();
 		songFind.attr("src", songFindAddy);
@@ -323,6 +308,45 @@ debugger
         songFind.attr("allow", "encrypted-media");
 		songFind.appendTo(spotifyIframe);
 	console.log(songFindAddy);
+        });
+
+
+    // Gets random genre choices from object
+
+
+    // var randomClassical = genres[classical]
+    
+    // [getRandomKey(genres.classical)];
+    // let classicalPlaylist = $('genres.classical')
+
+    // classicalPlaylist.addobjectkey(playlistCodes[randomPlaylistCode])
+    // classicalPlaylist.value('playlist A')
+
+
+
+    // var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
+
+    // var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
+
+    // var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.rhythmAndBlues)];
+
+    // var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
+
+
+
+    //     if(genreChoice === "classical"){
+    //         songFindAddy += randomClassical;
+    //     } else if (genreChoice === "soft rock"){
+    //         songFindAddy += randomSoftRock;
+    //     } else if (genreChoice === "jazz blues"){
+    //         songFindAddy += randomJazzBlue;
+    //     } else if (genreChoice ==="rhythm and blues"){
+    //         songFindAddy += randomRandB;
+    //     } else if (genreChoice === "indie electronic"){
+    //         songFindAddy += randomIndieElec;
+    //     };
+
+
 
 }
 
@@ -336,7 +360,6 @@ refreshButt.on('click',spotifyAlbumSearch)
 $("#genre-list").on("click", 'li', function(event){
     console.log(event);
     // Gets the value attribute that was selected
-    debugger
     var choiceValue = event.currentTarget.getAttribute("value");
     console.log(choiceValue);
     spotifyAlbumSearch(choiceValue);
