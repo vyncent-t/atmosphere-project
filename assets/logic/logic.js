@@ -256,7 +256,7 @@ var genres = {
     return objectKeys[randomPosition];
 }
 
-debugger
+// debugger
     console.log('Print data from albums');
     genreChoice = genre;
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
