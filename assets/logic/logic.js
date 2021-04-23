@@ -150,10 +150,10 @@ function handleAuthorizationResponse(){
     }
 }
 
-function spotifyAlbumSearch (genre) {
+function spotifyAlbumSearch (genres) {
 
     console.log('Print data from albums');
-    genreChoice = genre;
+    genreChoice = genres;
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
     .then(response => response.json()).then(data => console.log(data));
     console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
