@@ -3,6 +3,8 @@ $(document).ready(function () {
 	let searchinput = $("#youtubesearch");
 	let userVisualChoice;
 	let clientLoaded = false
+    // spotify data logic
+let spotify_token = ''
 
 	//replace this with project account key later
 
@@ -13,10 +15,8 @@ $(document).ready(function () {
 		console.log(userVisualChoice)
 	}
 
-	// let youtubeKey = "AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg"
-
 		function loadClient() {
-			debugger
+			// debugger
 			gapi.client.setApiKey("AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg");
 			gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
 			.then(function() { console.log("YOUTUBE: GAPI client loaded for API"); execute(); },
@@ -48,15 +48,13 @@ $(document).ready(function () {
 	searchbutton.on("click", youtubePlayer);
 });
 
-// POINT BEFORE THINGS BREAK AGAIN
 
 //spotify logic
 
-var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/"; 
+var redirect_uri = "http://127.0.0.1:5500/index.html"; 
 
 var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
 var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
-
 
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
@@ -70,8 +68,8 @@ function onPageLoad(){
 
     if ( window.location.search.length > 0 ){
         handleRedirect();
+        $('#authbutton').hide()
     }
-   
         }
     
 
@@ -93,13 +91,7 @@ function getCode(){
 }
 
 function requestAuthorization(){
-    // client_id.value;
-    // client_secret.value;
 
-    // localStorage.setItem("client_id", client_id);
-    // localStorage.setItem("client_secret", client_secret); 
-	
-	// In a real app you should not expose your client_secret to the user
 
     let url = AUTHORIZE;
     url += "?client_id=" + client_id;
@@ -120,7 +112,7 @@ function fetchAccessToken( code ){
 }
 
 function refreshAccessToken(code){
-    // refresh_token = localStorage.getItem("refresh_token");
+    refresh_token = localStorage.getItem("refresh_token");
     let body = "grant_type=refresh_token";
     body += "&refresh_token=" + refresh_token;
     body += "&client_id=" + client_id;
@@ -142,14 +134,13 @@ function handleAuthorizationResponse(){
     if ( this.status == 200 ){
         var data = JSON.parse(this.responseText);
         console.log(data);
-        var data = JSON.parse(this.responseText);
         if ( data.access_token != undefined ){
-            access_token = data.access_token;
-            // localStorage.setItem("access_token", access_token);
+            spotify_token = data.access_token;
+             localStorage.setItem("access_token", access_token);
         }
         if ( data.refresh_token  != undefined ){
             refresh_token = data.refresh_token;
-            // localStorage.setItem("refresh_token", refresh_token);
+             localStorage.setItem("refresh_token", refresh_token);
         }
         onPageLoad();
     }
@@ -224,84 +215,50 @@ let refreshButt = $('#refresh-btn')
 refreshButt.on('click',spotifyAlbumSearch)
 
 
+function spotifyAlbumSearch (genre) {
 //Object that holds all the spotify IDs for each genre
 var genres = {
 
-    classical: {
-        beethoven: "20GYbni2QFEhElzmJDVOLE",
-        bocelli: "3uARqNN4bYqts3Ltg5Jku3",
-        pavarotti: "4uqcr1BXoigCnQ9POw0YYP",
-        mozart: "75GZdd2yVQRz1whnrq4tbK"
-    },
-    softRock: {
-        fleetwoodMac: "0BwWUstDMUbgq2NYONRqlu",
-        extreme: "7DKHQxJTI32UyCdDdGwvRC",
-        neilDiamond: "6RfgcwsOUlWkGNAd6zjjYd",
-        ericCarmen: "02CxAhdSRhzcm6XQ8m5RNp"
-    },
-    jazzBlues: {
-        dukeElling: "5HRYqb7mp810fhgWiUL0uo",
-        ellaFitz: "1vvnTmmNWnGmqvVFjVIINf",
-        louisArm: "6mmv0gwumlFGWDGJXF4yEv",
-        rayCharles: "2HoXseQsMnDKs1sDSB2BfH"
-    },
-    rhythmAndBlues: {
-        laurynHill: "18XFe4CPBgVezXkxZP6rTb",
-        boyz2Men: "7JnLsJWNUf50DGZ5JhBgbO",
-        aliciaKeys: "6TqRKHLjDu5QZuC8u5Woij",
-        mackMorrison: "6plavTFCGXv5vpy0jZVtOV"
-    },
-
-    indieElectric: {
-        xx: "6Zw6NKh3oIUhDRMOyBmsUU",
-        prettyLights: "5E5U9ckjlBvJ3qkNAAqESY",
-        wet: "4vTrbwGUedO7SN3DqNOiYU",
-        shallou: "4RY8E9iJR1Ec6d3FXqqodJ"
-    }
-
-
 }
-function getRandomKey(object){
+
+    function getRandomKey(object){
     var objectKeys = Object.keys(object);
     var randomPosition = Math.floor(Math.random()*objectKeys.length);
     return objectKeys[randomPosition];
 }
 
+// debugger
+    console.log('Print data from albums');
+    genreChoice = genre;
+    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
+    .then(response => response.json()).then(
+        function (data) {
+            console.log(data)
+    var playlistA = data.playlists.items[0].id
+    console.log(`PLAYLIST CODE: ${playlistA}`)
 
-//Event listener for the ul genre selections
-$("#genre-list").on("click", 'li', function(event){
-    console.log(event);
-    // Gets the value attribute that was selected
-    var choiceValue = event.currentTarget.getAttribute("value");
-    console.log(choiceValue);
+    var playlistB = data.playlists.items[1].id
+    console.log(`PLAYLIST CODE: ${playlistB}`)
 
-    // Gets random genre choices from object
-    var randomClassical = genres.classical[getRandomKey(genres.classical)];
+    var playlistC = data.playlists.items[2].id
+    console.log(`PLAYLIST CODE: ${playlistC}`)
 
-    var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
+    var playlistD = data.playlists.items[3].id
+    console.log(`PLAYLIST CODE: ${playlistD}`)
 
-    var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
+    var playlistCodes = [playlistA,playlistB,playlistC,playlistD]
+    console.log(`Playlist codes: ${playlistCodes}`)
 
-    var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.rhythmAndBlues)];
 
-    var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
+    console.log(genres)
+    var randomPositionGenre = Math.floor(Math.random()*playlistCodes.length);
+    var randomPlaylist = playlistCodes[randomPositionGenre]
+    console.log(randomPlaylist)
 
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
     var spotifyIframe = $("#spotify-frame");
-    let songFindAddy = "https://open.spotify.com/embed/album/";
-
-        if(choiceValue === "classical"){
-            songFindAddy += randomClassical;
-        } else if (choiceValue === "soft-rock"){
-            songFindAddy += randomSoftRock;
-        } else if (choiceValue === "jazz-blues"){
-            songFindAddy += randomJazzBlue;
-        } else if (choiceValue ==="rhythm-and-blues"){
-            songFindAddy += randomRandB;
-        } else if (choiceValue === "indie-electronic"){
-            songFindAddy += randomIndieElec;
-        };
+    let songFindAddy = `https://open.spotify.com/embed/playlist/${randomPlaylist}`;
 
         spotifyIframe.empty();
 		songFind.attr("src", songFindAddy);
@@ -311,20 +268,15 @@ $("#genre-list").on("click", 'li', function(event){
         songFind.attr("allowtransparency", "true");
         songFind.attr("allow", "encrypted-media");
 		songFind.appendTo(spotifyIframe);
-	 console.log(songFindAddy);
+	console.log(songFindAddy);
+        });
+}
 
-   
+//Event listener for the ul genre selections
+$("#genre-list").on("click", 'li', function(event){
+    console.log(event);
+    // Gets the value attribute that was selected
+    var choiceValue = event.currentTarget.getAttribute("value");
+    console.log(choiceValue);
+    spotifyAlbumSearch(choiceValue);
 });
-
-
-
-
-//Event listener on ul to grab value of li selected and pick random number
-// Use number to select song from genre Array
-// Store selected song to add to URL
-// Change html content for iframe with new concactonated iframe tag
-    //Still left to do:
-    // Get the Ids for each song.
-    // Be able to get every artist's song by random selection(objects or array?)
-    // For loop for the entire list
-    // Final check to see if the embedding works
