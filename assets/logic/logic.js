@@ -15,10 +15,8 @@ let spotify_token = ''
 		console.log(userVisualChoice)
 	}
 
-	// let youtubeKey = "AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg"
-
 		function loadClient() {
-			debugger
+			// debugger
 			gapi.client.setApiKey("AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg");
 			gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
 			.then(function() { console.log("YOUTUBE: GAPI client loaded for API"); execute(); },
@@ -50,7 +48,6 @@ let spotify_token = ''
 	searchbutton.on("click", youtubePlayer);
 });
 
-// POINT BEFORE THINGS BREAK AGAIN
 
 //spotify logic
 
@@ -71,8 +68,8 @@ function onPageLoad(){
 
     if ( window.location.search.length > 0 ){
         handleRedirect();
+        $('#authbutton').hide()
     }
-   
         }
     
 
@@ -94,13 +91,7 @@ function getCode(){
 }
 
 function requestAuthorization(){
-    // client_id.value;
-    // client_secret.value;
 
-    // localStorage.setItem("client_id", client_id);
-    // localStorage.setItem("client_secret", client_secret); 
-	
-	// In a real app you should not expose your client_secret to the user
 
     let url = AUTHORIZE;
     url += "?client_id=" + client_id;
@@ -160,95 +151,11 @@ function handleAuthorizationResponse(){
 }
 
 
-
-
-
-function callApi(method, url, body, callback){
-    var xhr = new XMLHttpRequest();
-    xhr.open(method,url,true);
-    xhr.setRequestHeader('Content-Type','application/json');
-    xhr.setRequestHeader('Authorization','Bearer ' +access_token);
-    xhr.send(body);
-    xhr.onload = callback;
-
-}
-
- function refreshPlaylists(){
-     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
- }
-
-function handlePlaylistsResponse(){
-    if ( this.status == 200 ){
-        var data = JSON.parse(this.responseText);
-        console.log(data);
-        spotify_token = data.access_token
-        removeAllItems("playlists");
-        data.items.forEach(item => addPlaylist(item));
-        // document.getElementById('playlists').value=currentPlaylist;
-    }
-    else if ( this.status == 401 ){
-        refreshAccessToken()
-    }
-    else {
-        console.log(this.responseText);
-        alert(this.responseText);
-    }
-}
-
-function addPlaylist(item){
-    let node = document.createElement("option");
-    node.value = item.id;
-    node.innerHTML = item.name + " (" + item.tracks.total + ")";
-    document.getElementById("playlists").appendChild(node); 
-}
-
-
-function removeAllItems(elementId){
-    var node = document.getElementById(elementId);
-    while (node.firstChild) {
-        node.removeChild(node.firstChild);
-    }
-}
-
-
-
 function spotifyAlbumSearch (genre) {
 //Object that holds all the spotify IDs for each genre
 var genres = {
 
-    // classical: {
-    //     playlistA: '',
-    //     playlistB: '',
-    //     playlistC: '',
-    //     playlistD: '',
-    // },
-    // softRock: {
-    //     playlistA: '',
-    //     playlistB: '',
-    //     playlistC: '',
-    //     playlistD: ''
-    // },
-    // jazzBlues: {
-    //     playlistA: '',
-    //     playlistB: '',
-    //     playlistC: '',
-    //     playlistD: ''
-    // },
-    // rhythmAndBlues: {
-    //     playlistA: '',
-    //     playlistB: '',
-    //     playlistC: '',
-    //     playlistD: ''
-    // },
-
-    // indieElectric: {
-    //     playlistA: '',
-    //     playlistB: '',
-    //     playlistC: '',
-    //     playlistD: ''
-    // }
 }
-
 
     function getRandomKey(object){
     var objectKeys = Object.keys(object);
@@ -263,35 +170,25 @@ var genres = {
     .then(response => response.json()).then(
         function (data) {
             console.log(data)
-                // console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`);
-    // genres[genreChoice].playlistA = data.playlists.items[0].id;
     var playlistA = data.playlists.items[0].id
-    console.log(`PLAYLIST CODES: ${playlistA}`)
-    console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`);
-    // genres[genreChoice].playlistB = data.playlists.items[1].id;
+    console.log(`PLAYLIST CODE: ${playlistA}`)
+
     var playlistB = data.playlists.items[1].id
-    console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`);
-    // genres[genreChoice].playlistC = data.playlists.items[2].id;
+    console.log(`PLAYLIST CODE: ${playlistB}`)
+
     var playlistC = data.playlists.items[2].id
-    console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`);
-    // genres[genreChoice].playlistD = data.playlists.items[3].id;
+    console.log(`PLAYLIST CODE: ${playlistC}`)
+
     var playlistD = data.playlists.items[3].id
+    console.log(`PLAYLIST CODE: ${playlistD}`)
 
     var playlistCodes = [playlistA,playlistB,playlistC,playlistD]
     console.log(`Playlist codes: ${playlistCodes}`)
 
-    // return playlistCodes
 
-    let objectKey = genreChoice;
-    genres[objectKey] = playlistCodes;
-    var genreKey = genres[objectKey]
     console.log(genres)
-    // var playlistIDA = genreKey[0]
-    // var playlistIDB = genreKey[1]
-    // var playlistIDC = genreKey[2]
-    // var playlistIDD = genreKey[3]
-    var randomPositionGenre = Math.floor(Math.random()*genreKey.length);
-    var randomPlaylist = genreKey[randomPositionGenre]
+    var randomPositionGenre = Math.floor(Math.random()*playlistCodes.length);
+    var randomPlaylist = playlistCodes[randomPositionGenre]
     console.log(randomPlaylist)
 
     // Build url to have iframe embedded
@@ -309,52 +206,7 @@ var genres = {
 		songFind.appendTo(spotifyIframe);
 	console.log(songFindAddy);
         });
-
-
-    // Gets random genre choices from object
-
-
-    // var randomClassical = genres[classical]
-    
-    // [getRandomKey(genres.classical)];
-    // let classicalPlaylist = $('genres.classical')
-
-    // classicalPlaylist.addobjectkey(playlistCodes[randomPlaylistCode])
-    // classicalPlaylist.value('playlist A')
-
-
-
-    // var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
-
-    // var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
-
-    // var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.rhythmAndBlues)];
-
-    // var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
-
-
-
-    //     if(genreChoice === "classical"){
-    //         songFindAddy += randomClassical;
-    //     } else if (genreChoice === "soft rock"){
-    //         songFindAddy += randomSoftRock;
-    //     } else if (genreChoice === "jazz blues"){
-    //         songFindAddy += randomJazzBlue;
-    //     } else if (genreChoice ==="rhythm and blues"){
-    //         songFindAddy += randomRandB;
-    //     } else if (genreChoice === "indie electronic"){
-    //         songFindAddy += randomIndieElec;
-    //     };
-
-
-
 }
-
-let refreshButt = $('#refresh-btn')
-refreshButt.on('click',spotifyAlbumSearch)
-
-
-
 
 //Event listener for the ul genre selections
 $("#genre-list").on("click", 'li', function(event){
@@ -363,19 +215,4 @@ $("#genre-list").on("click", 'li', function(event){
     var choiceValue = event.currentTarget.getAttribute("value");
     console.log(choiceValue);
     spotifyAlbumSearch(choiceValue);
-
-   
 });
-
-
-
-
-//Event listener on ul to grab value of li selected and pick random number
-// Use number to select song from genre Array
-// Store selected song to add to URL
-// Change html content for iframe with new concactonated iframe tag
-    //Still left to do:
-    // Get the Ids for each song.
-    // Be able to get every artist's song by random selection(objects or array?)
-    // For loop for the entire list
-    // Final check to see if the embedding works
