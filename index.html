@@ -11,15 +11,11 @@
 <body onload="onPageLoad()">
     <main>
 	<aside class="musicleft">
-        <input class="btn btn-primary btn-lg " id="auth" type="button" onclick="requestAuthorization()" value="Request Authorization">
+        <input id="authbutton" class="btn btn-primary btn-lg" type="button" onclick="requestAuthorization()" value="Request Authorization">
 
 		<br/>
 
             <div class="mb-3">
-            	<label for="playlists" class="form-label"></label>
-            	<!-- <select id="playlists" class="form-control">
-            	</select> -->
-            	<input id="refresh-btn" class="btn btn-primary btn-sm mt-3" type="button" value="Refresh Playlists">
 				<div id="spotify-frame">
                     <!-- spotify iframe goes here -->
                 </div>
@@ -31,17 +27,17 @@
             <li id="classical" value="classical">
                 <h3>Classical</h3>
             </li>
-            <li id="soft-rock" value="soft-rock">
+            <li id="soft-rock" value="soft rock">
                 <h3>Soft Rock</h3>
             </li>
             <li id="jazz-blues"
-            value="jazz-blues">
+            value="jazz blues">
                 <h3>Jazz Blues</h3>
             </li>
-            <li id="rhythm-and-blues" value="rhythm-and-blues">
+            <li id="rhythm-and-blues" value="rhythm and blues">
                 <h3>Rhythm and Blues</h3>
             </li>
-            <li id="indie-electronic" value="indie-electronic">
+            <li id="indie-electronic" value="indie electronic">
                 <h3>Indie Electronic</h3>
             </li>
         </ul>

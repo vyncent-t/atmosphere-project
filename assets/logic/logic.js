@@ -15,10 +15,8 @@ let spotify_token = ''
 		console.log(userVisualChoice)
 	}
 
-	// let youtubeKey = "AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg"
-
 		function loadClient() {
-			debugger
+			// debugger
 			gapi.client.setApiKey("AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg");
 			gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
 			.then(function() { console.log("YOUTUBE: GAPI client loaded for API"); execute(); },
@@ -66,11 +64,8 @@ function onPageLoad(){
 
     if ( window.location.search.length > 0 ){
         handleRedirect();
-        $("#auth").hide();
-        spotifyAlbumSearch();
-        
+        $('#authbutton').hide()
     }
-   
         }
 
 function handleRedirect(){
@@ -150,104 +145,51 @@ function handleAuthorizationResponse(){
     }
 }
 
-function spotifyAlbumSearch (genres) {
 
-    console.log('Print data from albums');
-    genreChoice = genres;
-    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
-    .then(response => response.json()).then(data => console.log(data));
-    console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
-    genres.$[genreChoice].playlistA = data.playlists.items[0].id
-    console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`)
-    genres.$[genreChoice].playlistB = data.playlists.items[1].id
-    console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`)
-    genres.$[genreChoice].playlistC = data.playlists.items[2].id
-    console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`)
-    genres.$[genreChoice].playlistD = data.playlists.items[3].id
- }
-
- let refreshButt = $('#refresh-btn')
-  refreshButt.on('click',spotifyAlbumSearch)
-
-
- //Object that holds all the spotify IDs for each genre
- var genres = {
-
-    classical: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
-    softRock: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
-    jazzBlues: {
-        dukeElling: "5HRYqb7mp810fhgWiUL0uo",
-        ellaFitz: "1vvnTmmNWnGmqvVFjVIINf",
-        louisArm: "6mmv0gwumlFGWDGJXF4yEv",
-        rayCharles: "2HoXseQsMnDKs1sDSB2BfH"
-    },
-    rhythmAndBlues: {
-        laurynHill: "18XFe4CPBgVezXkxZP6rTb",
-        boyz2Men: "7JnLsJWNUf50DGZ5JhBgbO",
-        aliciaKeys: "6TqRKHLjDu5QZuC8u5Woij",
-        mackMorrison: "6plavTFCGXv5vpy0jZVtOV"
-    },
-
-    indieElectric: {
-        xx: "6Zw6NKh3oIUhDRMOyBmsUU",
-        prettyLights: "5E5U9ckjlBvJ3qkNAAqESY",
-        wet: "4vTrbwGUedO7SN3DqNOiYU",
-        shallou: "4RY8E9iJR1Ec6d3FXqqodJ"
-    }
-
+function spotifyAlbumSearch (genre) {
+//Object that holds all the spotify IDs for each genre
+var genres = {
 
 }
-function getRandomKey(object){
+
+    function getRandomKey(object){
     var objectKeys = Object.keys(object);
     var randomPosition = Math.floor(Math.random()*objectKeys.length);
     return objectKeys[randomPosition];
 }
 
+// debugger
+    console.log('Print data from albums');
+    genreChoice = genre;
+    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
+    .then(response => response.json()).then(
+        function (data) {
+            console.log(data)
+    var playlistA = data.playlists.items[0].id
+    console.log(`PLAYLIST CODE: ${playlistA}`)
 
-//Event listener for the ul genre selections
-$("#genre-list").on("click", 'li', function(event){
-    console.log(event);
-    // Gets the value attribute that was selected
-    var choiceValue = event.currentTarget.getAttribute("value");
-    console.log(choiceValue);
-    spotifyAlbumSearch(choiceValue)
-    // Gets random genre choices from object
-    var randomClassical = genres.classical[getRandomKey(genres.classical)];
+    var playlistB = data.playlists.items[1].id
+    console.log(`PLAYLIST CODE: ${playlistB}`)
 
-    var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
+    var playlistC = data.playlists.items[2].id
+    console.log(`PLAYLIST CODE: ${playlistC}`)
 
-    var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
+    var playlistD = data.playlists.items[3].id
+    console.log(`PLAYLIST CODE: ${playlistD}`)
 
-    var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.rhythmAndBlues)];
+    var playlistCodes = [playlistA,playlistB,playlistC,playlistD]
+    console.log(`Playlist codes: ${playlistCodes}`)
 
-    var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
+
+    console.log(genres)
+    var randomPositionGenre = Math.floor(Math.random()*playlistCodes.length);
+    var randomPlaylist = playlistCodes[randomPositionGenre]
+    console.log(randomPlaylist)
 
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
     var spotifyIframe = $("#spotify-frame");
-    let songFindAddy = "https://open.spotify.com/embed/playlist/";
-
-        if(choiceValue === "classical"){
-            songFindAddy += randomClassical;
-        } else if (choiceValue === "soft-rock"){
-            songFindAddy += randomSoftRock;
-        } else if (choiceValue === "jazz-blues"){
-            songFindAddy += randomJazzBlue;
-        } else if (choiceValue ==="rhythm-and-blues"){
-            songFindAddy += randomRandB;
-        } else if (choiceValue === "indie-electronic"){
-            songFindAddy += randomIndieElec;
-        };
+    let songFindAddy = `https://open.spotify.com/embed/playlist/${randomPlaylist}`;
 
         spotifyIframe.empty();
 		songFind.attr("src", songFindAddy);
@@ -257,20 +199,15 @@ $("#genre-list").on("click", 'li', function(event){
         songFind.attr("allowtransparency", "true");
         songFind.attr("allow", "encrypted-media");
 		songFind.appendTo(spotifyIframe);
-	 console.log(songFindAddy);
+	console.log(songFindAddy);
+        });
+}
 
-   
+//Event listener for the ul genre selections
+$("#genre-list").on("click", 'li', function(event){
+    console.log(event);
+    // Gets the value attribute that was selected
+    var choiceValue = event.currentTarget.getAttribute("value");
+    console.log(choiceValue);
+    spotifyAlbumSearch(choiceValue);
 });
-
-
-
-
-//Event listener on ul to grab value of li selected and pick random number
-// Use number to select song from genre Array
-// Store selected song to add to URL
-// Change html content for iframe with new concactonated iframe tag
-    //Still left to do:
-    // Get the Ids for each song.
-    // Be able to get every artist's song by random selection(objects or array?)
-    // For loop for the entire list
-    // Final check to see if the embedding works
