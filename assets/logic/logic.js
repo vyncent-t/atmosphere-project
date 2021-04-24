@@ -103,6 +103,7 @@ function fetchAccessToken( code ){
     body += "&client_id=" + client_id;
     body += "&client_secret=" + client_secret;
     callAuthorizationApi(body);
+    console.log(body);
 }
 
 function refreshAccessToken(code){
@@ -211,3 +212,8 @@ $("#genre-list").on("click", 'li', function(event){
     console.log(choiceValue);
     spotifyAlbumSearch(choiceValue);
 });
+
+//Time is here
+var currentTime=moment();
+var now=currentTime.format('MMMM Do YYYY');
+$("#time").text(now)
