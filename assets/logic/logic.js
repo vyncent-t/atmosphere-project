@@ -50,7 +50,7 @@ let spotify_token = ''
 
 //spotify logic
 
-var redirect_uri = "http://127.0.0.1:5500/index.html"; 
+var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/"; 
 
 var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
 var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; 
