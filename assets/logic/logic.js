@@ -15,10 +15,8 @@ let spotify_token = ''
 		console.log(userVisualChoice)
 	}
 
-	// let youtubeKey = "AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg"
-
 		function loadClient() {
-			debugger
+			// debugger
 			gapi.client.setApiKey("AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg");
 			gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
 			.then(function() { console.log("YOUTUBE: GAPI client loaded for API"); execute(); },
@@ -50,11 +48,10 @@ let spotify_token = ''
 	searchbutton.on("click", youtubePlayer);
 });
 
-// POINT BEFORE THINGS BREAK AGAIN
 
 //spotify logic
 
-var redirect_uri = "https://vyncent-t.github.io/atmosphere-project/"; 
+var redirect_uri = "http://127.0.0.1:5500/index.html"; 
 
 var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
 var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
@@ -71,8 +68,8 @@ function onPageLoad(){
 
     if ( window.location.search.length > 0 ){
         handleRedirect();
+        $('#authbutton').hide()
     }
-   
         }
     
 
@@ -94,13 +91,7 @@ function getCode(){
 }
 
 function requestAuthorization(){
-    // client_id.value;
-    // client_secret.value;
 
-    // localStorage.setItem("client_id", client_id);
-    // localStorage.setItem("client_secret", client_secret); 
-	
-	// In a real app you should not expose your client_secret to the user
 
     let url = AUTHORIZE;
     url += "?client_id=" + client_id;
@@ -161,156 +152,50 @@ function handleAuthorizationResponse(){
 }
 
 
-
-
-
-function callApi(method, url, body, callback){
-    var xhr = new XMLHttpRequest();
-    xhr.open(method,url,true);
-    xhr.setRequestHeader('Content-Type','application/json');
-    xhr.setRequestHeader('Authorization','Bearer ' +access_token);
-    xhr.send(body);
-    xhr.onload = callback;
-
-}
-
- function refreshPlaylists(){
-     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
- }
-
-function handlePlaylistsResponse(){
-    if ( this.status == 200 ){
-        var data = JSON.parse(this.responseText);
-        console.log(data);
-        spotify_token = data.access_token
-        removeAllItems("playlists");
-        data.items.forEach(item => addPlaylist(item));
-        // document.getElementById('playlists').value=currentPlaylist;
-    }
-    else if ( this.status == 401 ){
-        refreshAccessToken()
-    }
-    else {
-        console.log(this.responseText);
-        alert(this.responseText);
-    }
-}
-
-function addPlaylist(item){
-    let node = document.createElement("option");
-    node.value = item.id;
-    node.innerHTML = item.name + " (" + item.tracks.total + ")";
-    document.getElementById("playlists").appendChild(node); 
-}
-
-
-function removeAllItems(elementId){
-    var node = document.getElementById(elementId);
-    while (node.firstChild) {
-        node.removeChild(node.firstChild);
-    }
-}
-
-
-
 function spotifyAlbumSearch (genre) {
-
-    console.log('Print data from albums');
-    genreChoice = genre;
-    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
-    .then(response => response.json()).then(data => console.log(data));
-    console.log(`PLAYLIST CODES: ${data.playlists.items[0].id}`)
-    genres[genreChoice].playlistA = data.playlists.items[0].id;
-    console.log(`PLAYLIST CODES: ${data.playlists.items[1].id}`)
-    genres[genreChoice].playlistB = data.playlists.items[1].id;
-    console.log(`PLAYLIST CODES: ${data.playlists.items[2].id}`)
-    genres[genreChoice].playlistC = data.playlists.items[2].id;
-    console.log(`PLAYLIST CODES: ${data.playlists.items[3].id}`)
-    genres[genreChoice].playlistD = data.playlists.items[3].id;
-}
-
-let refreshButt = $('#refresh-btn')
-refreshButt.on('click',spotifyAlbumSearch)
-
-
 //Object that holds all the spotify IDs for each genre
 var genres = {
 
-    classical: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
-    softRock: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
-    jazzBlues: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
-    rhythmAndBlues: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    },
-
-    indieElectric: {
-        playlistA: data.playlists.items[0].id,
-        playlistB: data.playlists.items[1].id,
-        playlistC: data.playlists.items[2].id,
-        playlistD: data.playlists.items[3].id
-    }
-
-
 }
-function getRandomKey(object){
+
+    function getRandomKey(object){
     var objectKeys = Object.keys(object);
     var randomPosition = Math.floor(Math.random()*objectKeys.length);
     return objectKeys[randomPosition];
 }
 
+// debugger
+    console.log('Print data from albums');
+    genreChoice = genre;
+    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
+    .then(response => response.json()).then(
+        function (data) {
+            console.log(data)
+    var playlistA = data.playlists.items[0].id
+    console.log(`PLAYLIST CODE: ${playlistA}`)
 
-//Event listener for the ul genre selections
-$("#genre-list").on("click", 'li', function(event){
-    console.log(event);
-    // Gets the value attribute that was selected
-    var choiceValue = event.currentTarget.getAttribute("value");
-    console.log(choiceValue);
-    spotifyAlbumSearch(choiceValue)
-    // Gets random genre choices from object
-    var randomClassical = genres.classical[getRandomKey(genres.classical)];
+    var playlistB = data.playlists.items[1].id
+    console.log(`PLAYLIST CODE: ${playlistB}`)
 
-    var randomSoftRock = genres.softRock[getRandomKey(genres.softRock)];
+    var playlistC = data.playlists.items[2].id
+    console.log(`PLAYLIST CODE: ${playlistC}`)
 
-    var randomJazzBlue = genres.jazzBlues[getRandomKey(genres.jazzBlues)];
+    var playlistD = data.playlists.items[3].id
+    console.log(`PLAYLIST CODE: ${playlistD}`)
 
-    var randomRandB = genres.rhythmAndBlues[getRandomKey(genres.rhythmAndBlues)];
+    var playlistCodes = [playlistA,playlistB,playlistC,playlistD]
+    console.log(`Playlist codes: ${playlistCodes}`)
 
-    var randomIndieElec = genres.indieElectric[getRandomKey(genres.indieElectric)];
+
+    console.log(genres)
+    var randomPositionGenre = Math.floor(Math.random()*playlistCodes.length);
+    var randomPlaylist = playlistCodes[randomPositionGenre]
+    console.log(randomPlaylist)
 
     // Build url to have iframe embedded
     var songFind = $("<iframe>");
     var spotifyIframe = $("#spotify-frame");
-    let songFindAddy = "https://open.spotify.com/embed/playlist/";
-
-        if(choiceValue === "classical"){
-            songFindAddy += randomClassical;
-        } else if (choiceValue === "soft rock"){
-            songFindAddy += randomSoftRock;
-        } else if (choiceValue === "jazz blues"){
-            songFindAddy += randomJazzBlue;
-        } else if (choiceValue ==="rhythm and blues"){
-            songFindAddy += randomRandB;
-        } else if (choiceValue === "indie electronic"){
-            songFindAddy += randomIndieElec;
-        };
+    let songFindAddy = `https://open.spotify.com/embed/playlist/${randomPlaylist}`;
 
         spotifyIframe.empty();
 		songFind.attr("src", songFindAddy);
@@ -320,12 +205,15 @@ $("#genre-list").on("click", 'li', function(event){
         songFind.attr("allowtransparency", "true");
         songFind.attr("allow", "encrypted-media");
 		songFind.appendTo(spotifyIframe);
-	 console.log(songFindAddy);
+	console.log(songFindAddy);
+        });
+}
 
-   
+//Event listener for the ul genre selections
+$("#genre-list").on("click", 'li', function(event){
+    console.log(event);
+    // Gets the value attribute that was selected
+    var choiceValue = event.currentTarget.getAttribute("value");
+    console.log(choiceValue);
+    spotifyAlbumSearch(choiceValue);
 });
-
-
-
-
-
