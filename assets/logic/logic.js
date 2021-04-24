@@ -151,6 +151,70 @@ function handleAuthorizationResponse(){
 }
 
 
+
+
+
+function callApi(method, url, body, callback){
+    var xhr = new XMLHttpRequest();
+    xhr.open(method,url,true);
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.setRequestHeader('Authorization','Bearer ' +access_token);
+    xhr.send(body);
+    xhr.onload = callback;
+}
+
+// function refreshPlaylists(){
+//     callApi( "GET", PLAYLISTS, null, handlePlaylistsResponse );
+// }
+
+function handlePlaylistsResponse(){
+    if ( this.status == 200 ){
+        var data = JSON.parse(this.responseText);
+        console.log(data);
+        removeAllItems("playlists");
+        data.items.forEach(item => addPlaylist(item));
+        // document.getElementById('playlists').value=currentPlaylist;
+    }
+    else if ( this.status == 401 ){
+        refreshAccessToken()
+    }
+    else {
+        console.log(this.responseText);
+        alert(this.responseText);
+    }
+}
+
+function addPlaylist(item){
+    let node = document.createElement("option");
+    node.value = item.id;
+    node.innerHTML = item.name + " (" + item.tracks.total + ")";
+    document.getElementById("playlists").appendChild(node); 
+}
+
+
+function removeAllItems(elementId){
+    var node = document.getElementById(elementId);
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
+}
+
+//Time is here
+var currentTime=moment();
+var now=currentTime.format('MMMM Do YYYY');
+$("#time").text(now)
+// spotify data logic
+function spotifyAlbumSearch () {
+    console.log('Print data from albums')
+    genreChoice = 'lofi'
+    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`)
+    .then(response => response.json()).then(data => console.log(data))
+}
+
+let refreshButt = $('#refresh-btn')
+refreshButt.on('click',spotifyAlbumSearch)
+
+
 function spotifyAlbumSearch (genre) {
 //Object that holds all the spotify IDs for each genre
 var genres = {
