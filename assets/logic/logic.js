@@ -59,6 +59,7 @@ var client_secret = "4acdaecbdc96463bbe8daee8d938550c";
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
 const TOKEN = "https://accounts.spotify.com/api/token";
 
+
 function onPageLoad(){
    
 
@@ -103,7 +104,6 @@ function fetchAccessToken( code ){
     body += "&client_id=" + client_id;
     body += "&client_secret=" + client_secret;
     callAuthorizationApi(body);
-    console.log(body);
 }
 
 function refreshAccessToken(code){
@@ -159,7 +159,7 @@ var genres = {
     return objectKeys[randomPosition];
 }
 
-// debugger
+ //debugger
     console.log('Print data from albums');
     genreChoice = genre;
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
@@ -212,8 +212,3 @@ $("#genre-list").on("click", 'li', function(event){
     console.log(choiceValue);
     spotifyAlbumSearch(choiceValue);
 });
-
-//Time is here
-var currentTime=moment();
-var now=currentTime.format('MMMM Do YYYY');
-$("#time").text(now)

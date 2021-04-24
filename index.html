@@ -9,7 +9,7 @@
 		<title>Atmos project</title>
 	</head>
 
-<body>
+<body onload="onPageLoad()">
 	<section class="hero header-image" style="background-image: url(spa.jpg); ; background-repeat: no-repeat; background-position: fixed; background-size: 100%;">
         <div class="hero-body">
             
@@ -30,7 +30,8 @@
       <div class="columns">
         <div class="column is-two-fifths">
             
-            <p class="notification is-info is-size-5"> Your playlist
+            <p class="notification is-info is-size-5" id="spotify-frame"> Your playlist
+                <input id="spotifycontent" class="btn btn-primary btn-lg" type="button" onclick="requestAuthorization()" value="Request Authorization">
 
 				<div id="genre-options">
 					<ul id="genre-list">
@@ -53,31 +54,6 @@
 					</ul>
 				</div>
 			</div> 			
-  <!-- Div for visual choices -->
-      <!-- <div id="visual-options">
-        <ul id="visual-list">
-            <li id="forests">
-                <h3>Forest</h3>
-            </li>
-            <li id="beach">
-                <h3>Beach</h3>
-            </li>
-            <li id="space">
-                <h3>Space</h3>
-            </li>
-            <li id="plains">
-                <h3>Plains</h3>
-            </li>
-            <li id="northern-lights">
-                <h3>Northern Lights</h3>
-            </li>
-        </ul>
-    </div> -->
-               <!-- Div for genres choices -->
-
-
-   
-	
 
 		
         <div id="ytfield" class="column is-three-fifths">
@@ -100,17 +76,6 @@
     
      
 
-		
-		<div class="mb-3">
-			<label for="playlists" class="form-label">Playlists</label>
-			<!-- <select id="playlists" class="form-control">
-			</select> -->
-			<input id="refresh-btn" class="btn btn-primary btn-sm mt-3" type="button" value="Refresh Playlists">
-			<div id="spotify-frame">
-				<!-- spotify iframe goes here -->
-			</div>
-		</div>
-	</aside>
 
 
 	
@@ -118,20 +83,7 @@
 
 
 
-	 <!-- 
-				<aside class="musicleft">
-					<input id="spotifycontent" class="btn btn-primary btn-lg" type="button" onclick="requestAuthorization()" value="Request Authorization">
-			
-					<br/>
-			
-						<div class="mb-3">
-							<label for="playlists" class="form-label">Playlists</label>
-							<select id="playlists" class="form-control">
-							</select>
-							<input class="btn btn-primary btn-sm mt-3" type="button" onclick="refreshPlaylists()" value="Refresh Playlists">
-							<iframe src="https://open.spotify.com/embed/playlist/0L1sXGWh3IwgLxeRxT4TUj" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-						</div>
-				</aside> -->
+	  
           
 
             
