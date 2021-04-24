@@ -6,36 +6,36 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="assets/styles/style.css" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-		<title>Atmos project</title>
+		<title>Atmos</title>
 	</head>
 
-<body>
+<body onload="onPageLoad()">
 	<section class="hero header-image" style="background-image: url(spa.jpg); ; background-repeat: no-repeat; background-position: fixed; background-size: 100%;">
         <div class="hero-body">
             
-          <p class="title">
-            atmos
-          </p>
-          <p id="subtit" class="subtitle">
+            <p class="title">
+            ATMOS
+            </p>
+            <p id="subtit" class="subtitle">
             Make time for yourself
-          </p>
-          <span id="time"></span>
+            </p>
+            <span id="time"></span>
         </div>
        
-      </section>
+    </section>
 
 
-	  <br>
+	<br>
     
-      <div class="columns">
+    <div class="columns">
         <div class="column is-two-fifths">
             
-            <p class="notification is-info is-size-5"> Your playlist
-
+            <p class="notification is-info is-size-5"> Your Playlist</p>
+            <!-- Div for genres choices -->
 				<div id="genre-options">
 					<ul id="genre-list">
 						<li class="button is-medium is-fullwidth" id="classical" value="classical">
-							<h3>Classical</h3>
+						<h3>Classical</h3>
 						</li>
 						<li class="button is-medium is-fullwidth" id="soft-rock" value="soft-rock">
 							<h3>Soft Rock</h3>
@@ -53,31 +53,8 @@
 					</ul>
 				</div>
 			</div> 			
-  <!-- Div for visual choices -->
-      <!-- <div id="visual-options">
-        <ul id="visual-list">
-            <li id="forests">
-                <h3>Forest</h3>
-            </li>
-            <li id="beach">
-                <h3>Beach</h3>
-            </li>
-            <li id="space">
-                <h3>Space</h3>
-            </li>
-            <li id="plains">
-                <h3>Plains</h3>
-            </li>
-            <li id="northern-lights">
-                <h3>Northern Lights</h3>
-            </li>
-        </ul>
-    </div> -->
-               <!-- Div for genres choices -->
-
-
+  
    
-	
 
 		
         <div id="ytfield" class="column is-three-fifths">
@@ -90,60 +67,20 @@
         </div>
        
     
-      </div>
+    </div>
     
-
-
-
-
-		<br>
+    <br>
     
-     
-
-		
-		<div class="mb-3">
-			<label for="playlists" class="form-label">Playlists</label>
-			<!-- <select id="playlists" class="form-control">
+    <div class="mb-3">
+		<label for="playlists" class="form-label">Playlists</label>
+		<!-- <select id="playlists" class="form-control">
 			</select> -->
-			<input id="refresh-btn" class="btn btn-primary btn-sm mt-3" type="button" value="Refresh Playlists">
+        
+        <input id="authbutton" class="btn btn-primary btn-lg" type="button" onclick="requestAuthorization()" value="Request Authorization">
 			<div id="spotify-frame">
 				<!-- spotify iframe goes here -->
 			</div>
 		</div>
-	</aside>
-
-
-	
-  
-
-
-
-	 <!-- 
-				<aside class="musicleft">
-					<input id="spotifycontent" class="btn btn-primary btn-lg" type="button" onclick="requestAuthorization()" value="Request Authorization">
-			
-					<br/>
-			
-						<div class="mb-3">
-							<label for="playlists" class="form-label">Playlists</label>
-							<select id="playlists" class="form-control">
-							</select>
-							<input class="btn btn-primary btn-sm mt-3" type="button" onclick="refreshPlaylists()" value="Refresh Playlists">
-							<iframe src="https://open.spotify.com/embed/playlist/0L1sXGWh3IwgLxeRxT4TUj" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-						</div>
-				</aside> -->
-          
-
-            
-      
-    
-       
-      </section>
-
-    <main>
-	
-
-
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -151,7 +88,7 @@
 	<script src="https://apis.google.com/js/client.js?onload=load"> </script>   
 	<script src="assets/logic/logic.js"></script>
 
-	</main>
+	
 </body>
 
 
