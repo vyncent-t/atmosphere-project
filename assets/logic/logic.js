@@ -48,36 +48,31 @@ let spotify_token = ''
 	searchbutton.on("click", youtubePlayer);
 });
 
-
 //spotify logic
 
-var redirect_uri = "http://127.0.0.1:5500/index.html"; 
+var redirect_uri = "http://127.0.0.1:5500/"; 
 
 var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
-var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
+var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; 
 
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
 const TOKEN = "https://accounts.spotify.com/api/token";
-const PLAYLISTS = "https://api.spotify.com/v1/me/playlists";
 
 
 function onPageLoad(){
-    // client_id = localStorage.getItem("client_id");
-    // client_secret = localStorage.getItem("client_secret");
+   
 
     if ( window.location.search.length > 0 ){
         handleRedirect();
         $('#authbutton').hide()
     }
         }
-    
-
 
 function handleRedirect(){
     let code = getCode();
     fetchAccessToken( code );
-    window.history.pushState("", "", redirect_uri); // remove param from url
+    window.history.pushState("", "", redirect_uri); 
 }
 
 function getCode(){
@@ -90,8 +85,8 @@ function getCode(){
     return code;
 }
 
+//Concatenated urls to retrieve authorization,access and refresh tokens.
 function requestAuthorization(){
-
 
     let url = AUTHORIZE;
     url += "?client_id=" + client_id;
@@ -109,7 +104,6 @@ function fetchAccessToken( code ){
     body += "&client_id=" + client_id;
     body += "&client_secret=" + client_secret;
     callAuthorizationApi(body);
-    console.log(body);
 }
 
 function refreshAccessToken(code){
@@ -120,6 +114,7 @@ function refreshAccessToken(code){
     callAuthorizationApi(body);
 }
 
+//Header for Authorization call
 function callAuthorizationApi(body){
     let xhr = new XMLHttpRequest();
     xhr.open("POST", TOKEN, true);
@@ -137,11 +132,11 @@ function handleAuthorizationResponse(){
         console.log(data);
         if ( data.access_token != undefined ){
             spotify_token = data.access_token;
-             localStorage.setItem("access_token", access_token);
+             //localStorage.setItem("access_token", access_token);
         }
         if ( data.refresh_token  != undefined ){
             refresh_token = data.refresh_token;
-             localStorage.setItem("refresh_token", refresh_token);
+             //localStorage.setItem("refresh_token", refresh_token);
         }
         onPageLoad();
     }
@@ -164,7 +159,7 @@ var genres = {
     return objectKeys[randomPosition];
 }
 
-// debugger
+ //debugger
     console.log('Print data from albums');
     genreChoice = genre;
     fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
@@ -217,8 +212,3 @@ $("#genre-list").on("click", 'li', function(event){
     console.log(choiceValue);
     spotifyAlbumSearch(choiceValue);
 });
-
-//Time is here
-var currentTime=moment();
-var now=currentTime.format('MMMM Do YYYY');
-$("#time").text(now)
