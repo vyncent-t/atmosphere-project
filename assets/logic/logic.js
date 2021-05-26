@@ -1,59 +1,60 @@
 $(document).ready(function () {
-	let searchbutton = $("#youtubesearchbutton");
-	let searchinput = $("#youtubesearch");
-	let userVisualChoice;
-	let clientLoaded = false
+    let searchbutton = $("#youtubesearchbutton");
+    let searchinput = $("#youtubesearch");
+    let userVisualChoice;
+    let clientLoaded = false
     // spotify data logic
-let spotify_token = ''
+    let spotify_token = ''
 
-	//replace this with project account key later
+    //replace this with project account key later
 
-	// use the id from the JSON search api
-	function youtubePlayer() {
-		if (!clientLoaded) {loadClient()}
-		else {execute()}
-		console.log(userVisualChoice)
-	}
+    // use the id from the JSON search api
+    function youtubePlayer() {
+        if (!clientLoaded) { loadClient() }
+        else { execute() }
+        console.log(userVisualChoice)
+    }
 
-		function loadClient() {
-			// debugger
-			gapi.client.setApiKey("AIzaSyD3zSXnL-OmdY16kUbJdV5Jrik9WI50LPg");
-			gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
-			.then(function() { console.log("YOUTUBE: GAPI client loaded for API"); execute(); },
-			function(err) { console.error("Error loading GAPI client for API", err); });
-		}
+    function loadClient() {
+        // debugger
+        gapi.client.setApiKey("---NULL KEY DELETED---");
+        gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
+            .then(function () { console.log("YOUTUBE: GAPI client loaded for API"); execute(); },
+                function (err) { console.error("Error loading GAPI client for API", err); });
+    }
 
-	function execute() {
-		gapi.client.youtube.search.list(
-            {"q": `${searchinput.val()} meditation`} )
-			.then(function(response) {
-				// Handle the results here (response.result has the parsed body).
-				// debugger
-				console.log("Response", response);
-				let youtubeIDCode = response.result.items[0].id.videoId
-				console.log(youtubeIDCode)
+    function execute() {
+        gapi.client.youtube.search.list(
+            { "q": `${searchinput.val()} meditation` })
+            .then(function (response) {
+                // Handle the results here (response.result has the parsed body).
+                // debugger
+                console.log("Response", response);
+                let youtubeIDCode = response.result.items[0].id.videoId
+                console.log(youtubeIDCode)
 
-		let iframe = $("<iframe>");
-		let youtubeContent = $("#youtubeContent");
-		let youtubeURL = `https://www.youtube.com/embed/${youtubeIDCode}?controls=0&mute=1&showinfo=0&rel=0&autoplay=1&loop=1`;
-		youtubeContent.empty()
-		iframe.attr("src", youtubeURL);
-		iframe.attr("width", "560");
-		iframe.attr("height", "315");
-		iframe.attr("frameborder", "0");
-		iframe.appendTo(youtubeContent);
-			},
-				function(err) { console.error("Execute error", err); debugger });
-			}
-	searchbutton.on("click", youtubePlayer);
+                let iframe = $("<iframe>");
+                let youtubeContent = $("#youtubeContent");
+                let youtubeURL = `https://www.youtube.com/embed/${youtubeIDCode}?controls=0&mute=1&showinfo=0&rel=0&autoplay=1&loop=1`;
+                youtubeContent.empty()
+                iframe.attr("src", youtubeURL);
+                iframe.attr("width", "560");
+                iframe.attr("height", "315");
+                iframe.attr("frameborder", "0");
+                iframe.appendTo(youtubeContent);
+            },
+                function (err) { console.error("Execute error", err); debugger });
+    }
+    searchbutton.on("click", youtubePlayer);
 });
 
 
 //spotify logic
 
-var redirect_uri = "http://127.0.0.1:5500/index.html"; 
+//change url later
+var redirect_uri = "http://127.0.0.1:5500/index.html";
 
-var client_id = "50885eb87ce14757bdde10e7fb01f91a"; 
+var client_id = "50885eb87ce14757bdde10e7fb01f91a";
 var client_secret = "4acdaecbdc96463bbe8daee8d938550c"; // In a real app you should not expose your client_secret to the user
 
 
@@ -62,35 +63,33 @@ const TOKEN = "https://accounts.spotify.com/api/token";
 const PLAYLISTS = "https://api.spotify.com/v1/me/playlists";
 
 
-function onPageLoad(){
+function onPageLoad() {
     // client_id = localStorage.getItem("client_id");
     // client_secret = localStorage.getItem("client_secret");
 
-    if ( window.location.search.length > 0 ){
+    if (window.location.search.length > 0) {
         handleRedirect();
         $('#authbutton').hide()
     }
-        }
-    
+}
 
-
-function handleRedirect(){
+function handleRedirect() {
     let code = getCode();
-    fetchAccessToken( code );
+    fetchAccessToken(code);
     window.history.pushState("", "", redirect_uri); // remove param from url
 }
 
-function getCode(){
+function getCode() {
     let code = null;
     const queryString = window.location.search;
-    if ( queryString.length > 0 ){
+    if (queryString.length > 0) {
         const urlParams = new URLSearchParams(queryString);
         code = urlParams.get('code')
     }
     return code;
 }
 
-function requestAuthorization(){
+function requestAuthorization() {
 
 
     let url = AUTHORIZE;
@@ -102,16 +101,16 @@ function requestAuthorization(){
     window.location.href = url; // Show Spotify's authorization screen
 }
 
-function fetchAccessToken( code ){
+function fetchAccessToken(code) {
     let body = "grant_type=authorization_code";
-    body += "&code=" + code; 
+    body += "&code=" + code;
     body += "&redirect_uri=" + encodeURI(redirect_uri);
     body += "&client_id=" + client_id;
     body += "&client_secret=" + client_secret;
     callAuthorizationApi(body);
 }
 
-function refreshAccessToken(code){
+function refreshAccessToken(code) {
     refresh_token = localStorage.getItem("refresh_token");
     let body = "grant_type=refresh_token";
     body += "&refresh_token=" + refresh_token;
@@ -119,7 +118,7 @@ function refreshAccessToken(code){
     callAuthorizationApi(body);
 }
 
-function callAuthorizationApi(body){
+function callAuthorizationApi(body) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", TOKEN, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -130,17 +129,17 @@ function callAuthorizationApi(body){
 
 
 
-function handleAuthorizationResponse(){
-    if ( this.status == 200 ){
+function handleAuthorizationResponse() {
+    if (this.status == 200) {
         var data = JSON.parse(this.responseText);
         console.log(data);
-        if ( data.access_token != undefined ){
+        if (data.access_token != undefined) {
             spotify_token = data.access_token;
-             localStorage.setItem("access_token", access_token);
+            localStorage.setItem("access_token", access_token);
         }
-        if ( data.refresh_token  != undefined ){
+        if (data.refresh_token != undefined) {
             refresh_token = data.refresh_token;
-             localStorage.setItem("refresh_token", refresh_token);
+            localStorage.setItem("refresh_token", refresh_token);
         }
         onPageLoad();
     }
@@ -151,65 +150,65 @@ function handleAuthorizationResponse(){
 }
 
 
-function spotifyAlbumSearch (genre) {
-//Object that holds all the spotify IDs for each genre
-var genres = {
+function spotifyAlbumSearch(genre) {
+    //Object that holds all the spotify IDs for each genre
+    var genres = {
 
-}
+    }
 
-    function getRandomKey(object){
-    var objectKeys = Object.keys(object);
-    var randomPosition = Math.floor(Math.random()*objectKeys.length);
-    return objectKeys[randomPosition];
-}
+    function getRandomKey(object) {
+        var objectKeys = Object.keys(object);
+        var randomPosition = Math.floor(Math.random() * objectKeys.length);
+        return objectKeys[randomPosition];
+    }
 
-// debugger
+    // debugger
     console.log('Print data from albums');
     genreChoice = genre;
-    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, {headers: {'Authorization': `Bearer ${spotify_token}`}})
-    .then(response => response.json()).then(
-        function (data) {
-            console.log(data)
-    var playlistA = data.playlists.items[0].id
-    console.log(`PLAYLIST CODE: ${playlistA}`)
+    fetch(`https://api.spotify.com/v1/search?query=${genreChoice}&type=playlist`, { headers: { 'Authorization': `Bearer ${spotify_token}` } })
+        .then(response => response.json()).then(
+            function (data) {
+                console.log(data)
+                var playlistA = data.playlists.items[0].id
+                console.log(`PLAYLIST CODE: ${playlistA}`)
 
-    var playlistB = data.playlists.items[1].id
-    console.log(`PLAYLIST CODE: ${playlistB}`)
+                var playlistB = data.playlists.items[1].id
+                console.log(`PLAYLIST CODE: ${playlistB}`)
 
-    var playlistC = data.playlists.items[2].id
-    console.log(`PLAYLIST CODE: ${playlistC}`)
+                var playlistC = data.playlists.items[2].id
+                console.log(`PLAYLIST CODE: ${playlistC}`)
 
-    var playlistD = data.playlists.items[3].id
-    console.log(`PLAYLIST CODE: ${playlistD}`)
+                var playlistD = data.playlists.items[3].id
+                console.log(`PLAYLIST CODE: ${playlistD}`)
 
-    var playlistCodes = [playlistA,playlistB,playlistC,playlistD]
-    console.log(`Playlist codes: ${playlistCodes}`)
+                var playlistCodes = [playlistA, playlistB, playlistC, playlistD]
+                console.log(`Playlist codes: ${playlistCodes}`)
 
 
-    console.log(genres)
-    var randomPositionGenre = Math.floor(Math.random()*playlistCodes.length);
-    var randomPlaylist = playlistCodes[randomPositionGenre]
-    console.log(randomPlaylist)
+                console.log(genres)
+                var randomPositionGenre = Math.floor(Math.random() * playlistCodes.length);
+                var randomPlaylist = playlistCodes[randomPositionGenre]
+                console.log(randomPlaylist)
 
-    // Build url to have iframe embedded
-    var songFind = $("<iframe>");
-    var spotifyIframe = $("#spotify-frame");
-    let songFindAddy = `https://open.spotify.com/embed/playlist/${randomPlaylist}`;
+                // Build url to have iframe embedded
+                var songFind = $("<iframe>");
+                var spotifyIframe = $("#spotify-frame");
+                let songFindAddy = `https://open.spotify.com/embed/playlist/${randomPlaylist}`;
 
-        spotifyIframe.empty();
-		songFind.attr("src", songFindAddy);
-		songFind.attr("width", "300");
-		songFind.attr("height", "380");
-		songFind.attr("frameborder", "0");
-        songFind.attr("allowtransparency", "true");
-        songFind.attr("allow", "encrypted-media");
-		songFind.appendTo(spotifyIframe);
-	console.log(songFindAddy);
-        });
+                spotifyIframe.empty();
+                songFind.attr("src", songFindAddy);
+                songFind.attr("width", "300");
+                songFind.attr("height", "380");
+                songFind.attr("frameborder", "0");
+                songFind.attr("allowtransparency", "true");
+                songFind.attr("allow", "encrypted-media");
+                songFind.appendTo(spotifyIframe);
+                console.log(songFindAddy);
+            });
 }
 
 //Event listener for the ul genre selections
-$("#genre-list").on("click", 'li', function(event){
+$("#genre-list").on("click", 'li', function (event) {
     console.log(event);
     // Gets the value attribute that was selected
     var choiceValue = event.currentTarget.getAttribute("value");
