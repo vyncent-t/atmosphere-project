@@ -10,13 +10,19 @@ display: flex;
 flex-direction: row;
 justify-content: space-between;
 }
+.subtitle {
+    font-family: Snell Roundhand, cursive;
+}
+
+.header-image { background-image: url("beach-background.jpg"); ; background-repeat: no-repeat; background-position: 100%; background-size: 100% ; }
+
+
 
 #genre-list, #visual-list { 
-  border: solid 5px black;
-  list-style: none;
-  margin: 16px;
-  padding: 0;
-}
+    list-style: none;
+    margin: 16px;
+    padding: 0;
+  }
 
 li {
   border-bottom: solid 1px black;
@@ -26,7 +32,6 @@ li {
 }
 
 li:hover {
-  background-color:grey;
-  color: white;
+
   cursor: pointer;
 }
